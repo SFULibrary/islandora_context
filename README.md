@@ -1,6 +1,6 @@
 # Islandora Context
 
-Provides a set of Context conditions and reactions for Islandora. Still very early in development.
+Provides a set of [Context](https://dupal.org/project/context) conditions and reactions for Islandora. Still very early in development.
 
 ## Introduction
 
