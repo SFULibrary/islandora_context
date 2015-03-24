@@ -12,30 +12,37 @@ class IslandoraContextConditionNamespace extends context_condition {
   /**
    * Override of condition_values().
    */
+  // @codingStandardsIgnoreStart
   public function condition_values() {
     return array();
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Override of condition_form().
    */
+  // @codingStandardsIgnoreStart
   public function condition_form($context) {
     $form = parent::condition_form($context);
     $form['#type'] = 'value';
     $form['#value'] = TRUE;
     return $form;
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Override of condition_form_submit().
    */
+  // @codingStandardsIgnoreStart
   public function condition_form_submit($values) {
     return array($values);
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Override of options_form().
    */
+  // @codingStandardsIgnoreStart
   public function options_form($context) {
     $defaults = $this->fetch_from_context($context, 'options');
     return array(
@@ -47,6 +54,7 @@ class IslandoraContextConditionNamespace extends context_condition {
       ),
     );
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Override of execute().
