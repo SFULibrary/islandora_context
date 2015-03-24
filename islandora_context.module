@@ -27,6 +27,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_condition',
     ),
   );
+  $plugins['islandora_context_condition_collection_member'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_condition_collection_member.inc',
+      'class' => 'IslandoraContextConditionCollectionMember',
+      'parent' => 'context_condition',
+    ),
+  );
   return $plugins;
 }
 
@@ -41,6 +49,11 @@ function islandora_context_context_registry() {
         'description' => t("Choose this condition if you want to detect an object's PID namespace."),
         'plugin' => 'islandora_context_condition_namespace',
       ),
+      'islandora_context_condition_collection_member' => array(
+        'title' => t('Islandora Collection Membership'),
+        'description' => t("Choose this condition if you want to detect an object's membership in a collection."),
+        'plugin' => 'islandora_context_condition_collection_member',
+      ),
     ),
   );
 }
@@ -50,6 +63,9 @@ function islandora_context_context_registry() {
  */
 function islandora_context_islandora_view_object(AbstractObject $object) {
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_namespace')) {
+    $plugin->execute($object);
+  }
+  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_collection_member')) {
     $plugin->execute($object);
   }
   return array();
