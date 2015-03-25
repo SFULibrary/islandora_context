@@ -1,15 +1,17 @@
 # Islandora Context
 
-Provides a set of [Context](https://dupal.org/project/context) conditions for Islandora objects. Still very early in development - use cases are welcome.
+Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Still very early in development - use cases are welcome.
 
 ## Introduction
 
-Provides a set of Context conditions for Islandora objects:
+This module provides the following Context conditions:
 
 * Object namespace: Define a list of PID namespaces to trigger a condition; if the current object's namespace is in this list, the condition is triggered.
 * Collection membership: Define a list of collection PIDs to trigger a condition; if the current object is a member of a collection in this list, the condition is triggered.
 
-It also provides one Context reaction, which appends the text of a message (such as a rights statement, for example) to an Islandora object's display.
+It also provides one Context reaction:
+
+* Insert text into Islandora object's display, which appends the text of a message (such as a rights statement, for example) to an Islandora object's display.
 
 ## Requirements
 
@@ -21,7 +23,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Usage
 
-Install and configure. To create a context, go to Structure > Context and click on Add. "Islandora Collection Membership" and "Islandora PID Namespace" will appear in the Conditions list.
+Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
 One common use of Context is with the accompanying [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Themekey](https://www.drupal.org/project/themekey) module, althought it doesn't currently have any Islandora-specific functionality.
 
