@@ -1,6 +1,6 @@
 # Islandora Context
 
-Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Still very early in development - use cases are welcome.
+Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Still in early development - use cases are welcome.
 
 ## Introduction
 
@@ -11,7 +11,7 @@ This module provides the following Context conditions:
 
 It also provides one Context reaction:
 
-* Insert text into Islandora object's display, which appends the text of a message (such as a rights statement, for example) to an Islandora object's display.
+* Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display.
 
 ## Requirements
 

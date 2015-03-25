@@ -49,7 +49,7 @@ class IslandoraContextConditionNamespace extends context_condition {
       'islandora_namespaces' => array(
         '#type' => 'textarea',
         '#title' => t('PID namespaces to activate this condition'),
-        '#description' => t('A list of PID namespaces, separated by spaces (end each one with a colon).'),
+        '#description' => t('Set this condition when viewing an Islandora object whose PID namespace is in this list. Enter a list of PID namespaces, separated by spaces (end each one with a colon).'),
         '#default_value' => isset($defaults['islandora_namespaces']) ? $defaults['islandora_namespaces'] : '',
       ),
     );

@@ -49,7 +49,7 @@ class IslandoraContextConditionCollectionMember extends context_condition {
       'islandora_collection_membership' => array(
         '#type' => 'textarea',
         '#title' => t('Collection PIDs to activate this condition'),
-        '#description' => t('A list of collection PIDs, one per line.'),
+        '#description' => t('Set this condition when viewing an Islandora object that is a member of one of these collections. Enter a list of collection PIDs, one per line.'),
         '#default_value' => isset($defaults['islandora_collection_membership']) ?
           $defaults['islandora_collection_membership'] : '',
       ),
