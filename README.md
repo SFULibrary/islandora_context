@@ -9,6 +9,8 @@ Provides a set of Context conditions for Islandora objects:
 * Object namespace: Define a list of PID namespaces to trigger a condition; if the current object's namespace is in this list, the condition is triggered.
 * Collection membership: Define a list of collection PIDs to trigger a condition; if the current object is a member of a collection in this list, the condition is triggered.
 
+It also provides one Context reaction, which appends the text of a message (such as a rights statement, for example) to an Islandora object's display.
+
 ## Requirements
 
 [Context](https://dupal.org/project/context)
@@ -25,7 +27,7 @@ One common use of Context is with the accompanying [Context Reaction: Theme](htt
 
 ## Troubleshooting/issues/feedback
 
-Feedback and use cases (including Islandora-specific 'reactions') are welcome.
+Feedback and use cases for Islandora-specific "conditions" and "reactions" are welcome.
 
 * [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
 * [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
