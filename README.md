@@ -6,8 +6,9 @@ Provides a set of [Context](https://dupal.org/project/context) "conditions" and 
 
 This module provides the following Context conditions:
 
-* Object namespace: Define a list of PID namespaces to trigger a condition; if the current object's namespace is in this list, the condition is triggered.
-* Collection membership: Define a list of collection PIDs to trigger a condition; if the current object is a member of a collection in this list, the condition is triggered.
+* Object namespace: Define a list of PID namespaces; if the current object's namespace is in this list, the condition is triggered.
+* Collection membership: Define a list of collection PIDs; if the current object is a member of a collection in this list, the condition is triggered.
+* Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
 
 It also provides one Context reaction:
 
