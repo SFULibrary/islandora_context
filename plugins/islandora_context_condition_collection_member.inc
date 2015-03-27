@@ -44,14 +44,16 @@ class IslandoraContextConditionCollectionMember extends context_condition {
    */
   // @codingStandardsIgnoreStart
   public function options_form($context) {
-    $defaults = $this->fetch_from_context($context, 'options');
+    $collections = islandora_context_get_collections();
+    $values = $this->fetch_from_context($context);
     return array(
       'islandora_collection_membership' => array(
-        '#type' => 'textarea',
-        '#title' => t('Collection PIDs to activate this condition'),
-        '#description' => t('Set this condition when viewing an Islandora object that is a member of one of these collections. Enter a list of collection PIDs, one per line.'),
-        '#default_value' => isset($defaults['islandora_collection_membership']) ?
-          $defaults['islandora_collection_membership'] : '',
+        '#type' => 'checkboxes',
+        '#options' => $collections,
+        '#title' => t('Collections to activate this condition'),
+        '#description' => t('Set this condition when viewing an Islandora object that is a member of one or more of these collections.'),
+        '#default_value' => isset($values['options']['islandora_collection_membership']) ?
+          $values['options']['islandora_collection_membership'] : array(),
       ),
     );
   }
@@ -64,14 +66,40 @@ class IslandoraContextConditionCollectionMember extends context_condition {
     if ($this->condition_used()) {
       foreach ($this->get_contexts() as $context) {
         $collections = $this->fetch_from_context($context, 'options');
-        $collection_list = preg_split('/$\R?^/m', trim($collections['islandora_collection_membership']));
+        // Convert the selected checkboxes into a simple array.
+        $selected_collections = array_keys(array_filter($collections['islandora_collection_membership']));
         $object_collections = $islandora_object->relationships->get(FEDORA_RELS_EXT_URI, 'isMemberOfCollection');
         foreach ($object_collections as $object_collection) {
-          if (in_array($object_collection['object']['value'], $collection_list)) {
+          if (in_array($object_collection['object']['value'], $selected_collections)) {
             $this->condition_met($context);
           }
         }
       }
     }
   }
+}
+
+/**
+ * Query the resource index to get a list of collections.
+ *
+ * @return array
+ *   Associative array of pid => label pairs.
+ */
+function islandora_context_get_collections() {
+  // Query the rindex to get all collections.
+  $tuque = islandora_get_tuque_connection();
+  $ri_query = 'select $object $label from <#ri>
+     where $object <fedora-model:hasModel> <info:fedora/islandora:collectionCModel>
+      and $object <fedora-model:label> $label';
+  $results = $tuque->repository->ri->itqlQuery($ri_query, 'unlimited');
+  $collections = array();
+  foreach ($results as $member) {
+    $pid = preg_replace('/info:fedora\//', '', $member['object']['value']);
+    $label = $member['label']['value'];
+    // We don't want the root collection.
+    if ($pid != 'islandora:root') {
+      $collections[$pid] = $label;
+    }
+  }
+  return $collections;
 }
