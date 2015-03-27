@@ -49,7 +49,7 @@ class IslandoraContextReactionInsertText extends context_reaction {
       if (isset($context->reactions['islandora_context_reaction_insert_text']['text_to_insert'])) {
         $message_text = '';
         $message_text = $context->reactions['islandora_context_reaction_insert_text']['text_to_insert'];
-        $markup = array('#markup' => "<div class=\"islandora-metadata\">$message_text</div>");
+        $markup = array('#markup' => theme('islandora_context_reaction_inserted_message', array('message_text' => $message_text)));
       }
     }
 

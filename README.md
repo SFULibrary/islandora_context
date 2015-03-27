@@ -12,7 +12,7 @@ This module provides the following Context conditions:
 
 It also provides one Context reaction:
 
-* Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display.
+* Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
 
 ## Requirements
 

@@ -6,7 +6,21 @@
  */
 
 /**
- * Implements hook__ctools_plugin_api().
+ * Implements hook_theme().
+ */
+function islandora_context_theme() {
+  $items = array();
+  $items['islandora_context_reaction_inserted_message'] = array(
+    'variables' => array('message_text' => NULL),
+    'path' => drupal_get_path('module', 'islandora_context') . '/theme',
+    'template' => 'islandora-context-reaction-inserted-message',
+    'file' => 'islandora_context_theme.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
  */
 function islandora_context_ctools_plugin_api($module, $api) {
   if ($module == 'context' && $api == 'plugins') {
