@@ -77,7 +77,7 @@ class IslandoraContextConditionKeywordInDatastream extends context_condition {
         $allowed_mimetypes = array('text/plain', 'text/xml');
         if ($islandora_object[$dsid]) {
           if (in_array($islandora_object[$dsid]->mimetype, $allowed_mimetypes)) {
-            if (preg_match("/$keyword_string/i", $islandora_object[$dsid]->content)) {
+            if (preg_match("/$keyword_string/is", $islandora_object[$dsid]->content)) {
               $this->condition_met($context);
             }
           }
