@@ -13,12 +13,13 @@ class IslandoraContextReactionInsertText extends context_reaction {
   /**
    * Grab the available themes and provide them as a reaction for context.
    *
-   * @param $context
+   * @param string $context
    *   The context as passed from context module.
    *
    * @return array
    *   The FAPI array as read by context module.
    */
+  // @codingStandardsIgnoreStart
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
     
@@ -34,6 +35,7 @@ class IslandoraContextReactionInsertText extends context_reaction {
     );
     return $form;
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Return some markup wrapping a message.
@@ -41,7 +43,7 @@ class IslandoraContextReactionInsertText extends context_reaction {
    * @return string $markup
    *   Markup that is appended to the render array for the object view.
    */
-  function execute() {
+  public function execute() {
     $markup = '';
     foreach ($this->get_contexts() as $context) {
       if (isset($context->reactions['islandora_context_reaction_insert_text']['text_to_insert'])) {
