@@ -8,6 +8,7 @@ This module provides the following Context conditions:
 
 * Collection membership: Define a set of collections; if the current object is a member of a collection in this set, the condition is triggered.
 * Object namespace: Define a list of PID namespaces; if the current object's namespace is in this list, the condition is triggered.
+* Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.
 * Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
 
 It also provides one Context reaction:
