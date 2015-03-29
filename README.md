@@ -10,6 +10,7 @@ This module provides the following Context conditions:
 * Object namespace: Define a list of PID namespaces; if the current object's namespace is in this list, the condition is triggered.
 * Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.
 * Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
+* Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects
 
 It also provides one Context reaction:
 

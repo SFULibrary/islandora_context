@@ -33,6 +33,14 @@ function islandora_context_ctools_plugin_api($module, $api) {
  */
 function islandora_context_context_plugins() {
   $plugins = array();
+  $plugins['islandora_context_condition_is_islandora_object'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_condition_is_islandora_object.inc',
+      'class' => 'IslandoraContextConditionIsIslandoraObject',
+      'parent' => 'context_condition',
+    ),
+  );
   $plugins['islandora_context_condition_namespace'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -83,6 +91,11 @@ function islandora_context_context_plugins() {
 function islandora_context_context_registry() {
   return array(
     'conditions' => array(
+      'islandora_context_condition_is_islandora_object' => array(
+        'title' => t('Is Islandora Object'),
+        'description' => t("Choose this condition if you want the context to apply to all Islandora objects."),
+        'plugin' => 'islandora_context_condition_is_islandora_object',
+      ),
       'islandora_context_condition_namespace' => array(
         'title' => t('Islandora PID Namespace'),
         'description' => t("Choose this condition if you want to detect an object's PID namespace."),
@@ -118,6 +131,9 @@ function islandora_context_context_registry() {
  * Implements hook_islandora_view_object().
  */
 function islandora_context_islandora_view_object(AbstractObject $object) {
+  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_is_islandora_object')) {
+    $plugin->execute($object);
+  }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_namespace')) {
     $plugin->execute($object);
   }
