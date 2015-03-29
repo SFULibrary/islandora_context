@@ -46,10 +46,22 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
   public function options_form($context) {
     $values = $this->fetch_from_context($context);
     return array(
+      'islandora_is_islandora_object_types' => array(
+        '#type' => 'radios',
+        '#options' => array(
+          'collection' => t('Collection objects'),
+          'noncollection' => t('Non-collection objects'),
+          'both' => t('Both'),
+        ),
+        '#title' => t('Object types'),
+        '#description' => t('Object types to include.'),
+        '#default_value' => isset($values['options']['islandora_is_islandora_object_types']) ?
+          $values['options']['islandora_is_islandora_object_types'] : 'both',
+      ),
       'islandora_is_islandora_object' => array(
         '#type' => 'checkbox',
         '#title' => t('Apply to all Islandora objects'),
-        '#description' => t('Set this condition when you want it to apply to all Islandora objects.'),
+        '#description' => t('Set this condition when you want the context to apply to all Islandora objects of the type selected above.'),
         '#default_value' => isset($values['options']['islandora_is_islandora_object']) ?
           $values['options']['islandora_is_islandora_object'] : FALSE,
       ),
@@ -64,9 +76,39 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
     if ($this->condition_used()) {
       foreach ($this->get_contexts() as $context) {
         $values = $this->fetch_from_context($context);
-        if ($values['options']['islandora_is_islandora_object']) {
+        // For all objects.
+        if ($values['options']['islandora_is_islandora_object'] &&
+          ($values['options']['islandora_is_islandora_object_types'] == 'both')) {
           if (is_object($islandora_object) && property_exists($islandora_object, 'id')) {
             $this->condition_met($context);
+          }
+        }
+        // For collection objects.
+        if ($values['options']['islandora_is_islandora_object'] &&
+          ($values['options']['islandora_is_islandora_object_types'] == 'collection')) {
+          $cmodels = $islandora_object->relationships->get('info:fedora/fedora-system:def/model#', 'hasModel');
+          $islandora_object_cmodels = array();
+          foreach ($cmodels as $cmodel) {
+            $islandora_object_cmodels[] = $cmodel['object']['value'];
+          }
+          if (is_object($islandora_object) && property_exists($islandora_object, 'id')) {
+            if (in_array('islandora:collectionCModel', $islandora_object_cmodels)) {
+              $this->condition_met($context);
+            }
+          }
+        }
+        // For non-collection objects.
+        if ($values['options']['islandora_is_islandora_object'] &&
+          ($values['options']['islandora_is_islandora_object_types'] == 'noncollection')) {
+          $cmodels = $islandora_object->relationships->get('info:fedora/fedora-system:def/model#', 'hasModel');
+          $islandora_object_cmodels = array();
+          foreach ($cmodels as $cmodel) {
+            $islandora_object_cmodels[] = $cmodel['object']['value'];
+          }
+          if (is_object($islandora_object) && property_exists($islandora_object, 'id')) {
+            if (!in_array('islandora:collectionCModel', $islandora_object_cmodels)) {
+              $this->condition_met($context);
+            }
           }
         }
       }
