@@ -48,7 +48,6 @@ class IslandoraContextConditionRelationship extends context_condition {
     return array(
       'islandora_relationship_predicate_uri' => array(
         '#type' => 'textfield',
-        '#required' => TRUE, 
         '#title' => t('Predicate URI'),
         '#description' => t('Enter the predicate URI of the relationship, e.g. info:fedora/fedora-system:def/model#.'),
         '#default_value' => isset($defaults['islandora_relationship_predicate_uri']) ?
@@ -56,7 +55,6 @@ class IslandoraContextConditionRelationship extends context_condition {
       ),
       'islandora_relationship_predicate' => array(
         '#type' => 'textfield',
-        '#required' => TRUE, 
         '#title' => t('Predicate'),
         '#description' => t('Enter the predicate of the relationship, e.g., hasModel.'),
         '#default_value' => isset($defaults['islandora_relationship_predicate']) ?
@@ -88,8 +86,11 @@ class IslandoraContextConditionRelationship extends context_condition {
         // Loop through the object's relationships and see if any of them
         // are in the defined list.
         foreach ($object_relationships as $relationship) {
-          if (in_array($relationship['object']['value'], $predicate_values)) {
-            $this->condition_met($context);
+          if (($wanted_relationships['islandora_relationship_predicate_uri'] != '') &&
+            ($wanted_relationships['islandora_relationship_predicate'] != '')) {
+            if (in_array($relationship['object']['value'], $predicate_values)) {
+              $this->condition_met($context);
+            }
           }
         }
       }
