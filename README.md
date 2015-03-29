@@ -1,6 +1,6 @@
 # Islandora Context
 
-Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Use cases are welcome.
+Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Think of this module as an "if-this-then-that" configurator for Islandora repositories. Use cases are welcome.
 
 ## Introduction
 
