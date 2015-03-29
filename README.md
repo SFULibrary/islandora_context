@@ -27,6 +27,21 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
+The conditions and reaction provided by this module can be used with other Context modules, such as:
+
+* [Context Add Assets](https://drupal.org/project/context_addassets): Add Javascript or CSS based on a condition
+* [Context Disable Context](https://drupal.org/project/context_disable_context): Disable a context based on a condition
+* [Context GeoIP](https://drupal.org/project/context_geoip): Use the user's IP address as a condition
+* [Context HTTP Headers](https://drupal.org/project/context_http_headers): Set custom HTTP headers based on a condition
+* [Context Hide Local Tasks](https://drupal.org/project/context_local_tasks): Hide local task tabs, no coding required
+* [Context PHP](https://drupal.org/project/contextphp): Evaluate PHP code as a condition and execute PHP code as a reaction
+* [Context Reaction Theme](https://drupal.org/project/context_reaction_theme): Change site theme based on a condition (see note below)
+* [Context Rules](https://drupal.org/project/context_rules): Integrate [Rules](https://www.drupal.org/project/rules) into contexts
+* [Context Useragent](https://drupal.org/project/context_useragent): Define reactions based on the user's browser
+* [Context as Reaction](https://drupal.org/project/context_as_reaction): Set a context via a reaction
+
+And there are many more.
+
 One common use of Context is with the accompanying [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Themekey](https://www.drupal.org/project/themekey) module, althought it doesn't currently have any Islandora-specific functionality.
 
 ## Troubleshooting/issues/feedback
