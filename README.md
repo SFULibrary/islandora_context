@@ -46,7 +46,7 @@ The conditions and reaction provided by this module can be used with other Conte
 
 And there are many more.
 
-One common use of Context is to change a site's theme based on certain conditions, using the [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Themekey](https://www.drupal.org/project/themekey) module, althought it doesn't currently have any Context or Islandora-specific functionality.
+One common use of Context is to change a site's theme based on certain conditions, using the [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Islandora Themekey](https://github.com/mjordan/islandora_themekey) module, which lets you switch your site's theme based on collection membership of the current Islandora object.
 
 ## Troubleshooting/issues/feedback
 
