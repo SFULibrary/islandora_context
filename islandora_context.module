@@ -6,6 +6,20 @@
  */
 
 /**
+* Implementats of hook_menu().
+*/
+function islandora_context_menu() {
+  $items = array();
+  $items['islandora/object/%islandora_object/data'] = array(
+    'page callback' => 'islandora_context_output_rdf',
+    'access callback' => TRUE,
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
  * Implements hook_theme().
  */
 function islandora_context_theme() {
@@ -73,12 +87,28 @@ function islandora_context_context_plugins() {
       'parent' => 'context_condition',
     ),
   );
+  $plugins['islandora_context_condition_rdf_requested'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_condition_rdf_requested.inc',
+      'class' => 'IslandoraContextConditionRdfRequested',
+      'parent' => 'context_condition',
+    ),
+  );
 
   $plugins['islandora_context_reaction_insert_text'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
       'file' => 'islandora_context_reaction_insert_text.inc',
       'class' => 'IslandoraContextReactionInsertText',
+      'parent' => 'context_reaction',
+    ),
+  );
+  $plugins['islandora_context_reaction_return_rdf'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_return_rdf.inc',
+      'class' => 'IslandoraContextReactionReturnRdf',
       'parent' => 'context_reaction',
     ),
   );
@@ -116,12 +146,22 @@ function islandora_context_context_registry() {
         'description' => t("Choose this condition if you want to detect a particluar relationship defined in the object's RELS-EXT."),
         'plugin' => 'islandora_context_condition_relationship',
       ),
+      'islandora_context_condition_rdf_requested' => array(
+        'title' => t('RDF has been requested'),
+        'description' => t("Choose this condition if you want to detect if a request has been made for RDF XML."),
+        'plugin' => 'islandora_context_condition_rdf_requested',
+      ),
     ),
     'reactions' => array(
       'islandora_context_reaction_insert_text' => array(
         'title' => t("Insert text into Islandora object's display"),
         'description' => t("Insert text into an object's display."),
         'plugin' => 'islandora_context_reaction_insert_text',
+      ),
+      'islandora_context_reaction_return_rdf' => array(
+        'title' => t("Return RDF for an Islandora object"),
+        'description' => t("Returns RDF representation of an Islandora object."),
+        'plugin' => 'islandora_context_reaction_return_rdf',
       ),
     ),
   );
@@ -146,6 +186,9 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_relationship')) {
     $plugin->execute($object);
   }
+  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_rdf_requested')) {
+    $plugin->execute($object);
+  }
   return array();
 }
 
@@ -159,4 +202,12 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
       array_push($rendered, $markup);
     }
   }
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_return_rdf')) {
+    $plugin->execute($object);
+  }
+}
+
+function islandora_context_output_rdf($islandora_object) {
+  drupal_add_http_header('Content-Type', 'application/rdf+xml; utf-8');
+  echo $islandora_object['RELS-EXT']->content;
 }

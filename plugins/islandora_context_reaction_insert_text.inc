@@ -11,7 +11,7 @@
 class IslandoraContextReactionInsertText extends context_reaction {
 
   /**
-   * Grab the available themes and provide them as a reaction for context.
+   * Allow the admin to define some text to display.
    *
    * @param string $context
    *   The context as passed from context module.
