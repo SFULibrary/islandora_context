@@ -8,4 +8,5 @@
  *   $message_text string
  *     The message to display to users.
  */
+?>
 <div class=\"islandora-metadata\"><?php print $message_text; ?></div>
