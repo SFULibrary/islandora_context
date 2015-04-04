@@ -11,10 +11,12 @@ This module provides the following Context conditions:
 * Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.
 * Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
 * Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects. Allows choice of collection, non-collection, and all objects.
+* Perform basic content negotiation by detecting whether the requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
 
-It also provides one Context reaction:
+It also provides two Context reactions:
 
 * Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
+* Return the object's RELS-EXT datastream (experimental); for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226").
 
 ## Requirements
 
