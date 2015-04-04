@@ -23,7 +23,7 @@ class IslandoraContextReactionReturnRdf extends context_reaction {
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
       if ($context->reactions['islandora_context_reaction_return_rdf']['return_rdf']) {
-        drupal_goto('islandora/object/' . urlencode($object->id) . '/data');
+        islandora_view_datastream($object['RELS-EXT']);
       }
     }
   }
