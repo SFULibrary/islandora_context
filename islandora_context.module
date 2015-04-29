@@ -90,6 +90,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
+  $plugins['islandora_context_reaction_display_solr_metadata'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_display_solr_metadata.inc',
+      'class' => 'IslandoraContextReactionDisplaySolrMetadata',
+      'parent' => 'context_reaction',
+    ),
+  );
   $plugins['islandora_context_reaction_return_rdf'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -144,6 +152,11 @@ function islandora_context_context_registry() {
         'description' => t("Insert text into an object's display."),
         'plugin' => 'islandora_context_reaction_insert_text',
       ),
+      'islandora_context_reaction_display_solr_metadata' => array(
+        'title' => t("Display a Solr Metadata profile"),
+        'description' => t("Display a Solr Metadata profile."),
+        'plugin' => 'islandora_context_reaction_display_solr_metadata',
+      ),
       'islandora_context_reaction_return_rdf' => array(
         'title' => t("Return RDF for an Islandora object"),
         'description' => t("Returns RDF representation of an Islandora object."),
@@ -174,6 +187,9 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_rdf_requested')) {
+    $plugin->execute($object);
+  }
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata')) {
     $plugin->execute($object);
   }
   return array();
