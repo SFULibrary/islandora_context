@@ -1,8 +1,8 @@
 <?php
 /**
  * @file
- * Context plugin that generates a message to be displayed at the top
- * of an Islandora object's display.
+ * Context plugin that loads an Islandora Solr Metadata display
+ * configuration.
  */
 
 /**
@@ -22,15 +22,21 @@ class IslandoraContextReactionDisplaySolrMetadata extends context_reaction {
   // @codingStandardsIgnoreStart
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
+    module_load_include('inc', 'islandora_solr_metadata', 'includes/db');
+    $solr_metadta_configurations = islandora_solr_metadata_get_associations();
+    $dispaly_configurations = array();
+    foreach ($solr_metadta_configurations as $config) {
+      $display_configurations[$config['id']] = $config['name'];
+    }
     
     $form = array(
-      '#title' => t('Text to insert'),
-
-      'text_to_insert' => array(
-        '#title' => t('Text to insert'),
-        '#description' => t('Enter some text to insert when this reaction is active.'),
-        '#type' => 'textfield',
-        '#default_value' => isset($settings['text_to_insert']) ? $settings['text_to_insert'] : '',
+      '#title' => t('Solr Metadata Configuration'),
+      'solr_metadata_configuration' => array(
+        '#title' => t('Solr Metadata Configuration'),
+        '#description' => t('Choose the name of the Solr metadata configuration to use when reaction is active.'),
+        '#type' => 'select',
+        '#options' => $display_configurations,
+        '#default_value' => isset($settings['solr_metadata_configuration']) ? $settings['solr_metadata_configuration'] : '',
       ),
     );
     return $form;
@@ -38,18 +44,15 @@ class IslandoraContextReactionDisplaySolrMetadata extends context_reaction {
   // @codingStandardsIgnoreEnd
 
   /**
-   * @todo: template_preprocess_islandora_solr_metadata_display() won't work
-   * as it currently exists, since it gets is associations be calling islandora_solr_metadata_get_associations_by_cmodels($object->models).
-   * We'll need to open a feature ticket to let us pass in associations in the call to theme(), below. We'll define the
-   * associations in the options form, above.
+   * Grab the Islandora Solr Metadata configuration asssociated with this
+   * context and pass it off to the theming function.
    */
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
-      // if (isset($context->reactions['islandora_context_reaction_display_solr_metadata']['text_to_insert'])) {
-      if (TRUE) {
+      if (isset($context->reactions['islandora_context_reaction_display_solr_metadata']['solr_metadata_configuration'])) {
         $elements = array(
           'islandora_object' => $object,
-          // 'associations' => array(foo, bar),
+          'associations' => array(array('configuration_id' => $context->reactions['islandora_context_reaction_display_solr_metadata']['solr_metadata_configuration'])),
           'print' => FALSE,
         );
         return theme('islandora_solr_metadata_display', $elements);
