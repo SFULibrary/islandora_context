@@ -13,15 +13,17 @@ This module provides the following Context conditions:
 * Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects. Allows choice of collection, non-collection, and all objects.
 * Perform basic content negotiation by detecting whether the requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
 
-It also provides two Context reactions:
+It also provides three Context reactions:
 
 * Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
+* Display an Islandora Solr Metadata Profile: Lets you choose a Solr Metadata display. The Islandora Solr Metadata module associates displays with content types; this reaction lets you associate displays with any context.
 * Return the object's RELS-EXT datastream (experimental); for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226").
 
 ## Requirements
 
 * [Islandora](https://github.com/Islandora/islandora)
 * [Context](https://dupal.org/project/context)
+* [Islandora Solr Metadata](https://github.com/Islandora/islandora_solr_metadata) if you want to use the "Display an Islandora Solr Metadata Profile" reaction.
 
 ## Installation
 
@@ -31,7 +33,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
-Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; alter a breadcrum or the navigation menu when displaying Islandora objects that have a specific relationship in their RELS-EXT; or adding a rights statement to all objects that are in a specific collection.
+Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; alter a breadcrum or the navigation menu when displaying Islandora objects that have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadta display; or adding a rights statement to all objects that are in a specific collection.
 
 The conditions and reaction provided by this module can be used with other Context modules, such as:
 
@@ -49,6 +51,10 @@ The conditions and reaction provided by this module can be used with other Conte
 And there are many more.
 
 One common use of Context is to change a site's theme based on certain conditions, using the [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Islandora Themekey](https://github.com/mjordan/islandora_themekey) module, which lets you switch your site's theme based on collection membership of the current Islandora object.
+
+## Maintainer
+
+* [Mark Jordan](https://github.com/mjordan)
 
 ## Troubleshooting/issues/feedback
 

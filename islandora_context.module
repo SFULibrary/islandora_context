@@ -153,7 +153,7 @@ function islandora_context_context_registry() {
         'plugin' => 'islandora_context_reaction_insert_text',
       ),
       'islandora_context_reaction_display_solr_metadata' => array(
-        'title' => t("Display a Solr Metadata profile"),
+        'title' => t("Display an Islandora Solr Metadata profile"),
         'description' => t("Display a Solr Metadata profile."),
         'plugin' => 'islandora_context_reaction_display_solr_metadata',
       ),
@@ -189,9 +189,6 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_rdf_requested')) {
     $plugin->execute($object);
   }
-  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata')) {
-    $plugin->execute($object);
-  }
   return array();
 }
 
@@ -208,4 +205,61 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
       array_push($rendered, $markup);
     }
   }
+}
+
+/**
+ * Implements hook_islandora_metadata_display_info().
+ */
+function islandora_context_islandora_metadata_display_info() {
+  return array(
+    'islandora_context' => array(
+      'label' => t('Islandora Solr Metadata managed by the Islandora Context module'),
+      'description' => t('Context-sensitive metadata display driven by the Islandora Solr Search module'),
+      'metadata callback' => 'islandora_context_solr_metadata_display_callback',
+      'description callback' => 'islandora_context_solr_metadata_description_callback',
+      'configuration' => 'admin/islandora/search/islandora_solr/metadata',
+    ),
+  );
+}
+
+/**
+ * Metadata display callback for rendering metadata from Solr.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ * @param bool $print
+ *   Whether this is for printing purposes.
+ *
+ * @return string
+ *   Markup representing the metadata display pulled from Solr.
+ */
+function islandora_context_solr_metadata_display_callback(AbstractObject $object, $print = FALSE) {
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata')) {
+    if ($markup = $plugin->execute($object));
+    return $markup;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Metadata display callback for rendering metadata from Solr.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return string
+ *   Markup representing the metadata display pulled from Solr.
+ */
+function islandora_context_solr_metadata_description_callback(AbstractObject $object) {
+  return FALSE;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
+  $note = t("Note: Display configurations used in by Islandora Context don't use content models.");
+  $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
 }
