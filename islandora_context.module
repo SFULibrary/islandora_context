@@ -235,11 +235,12 @@ function islandora_context_islandora_metadata_display_info() {
  */
 function islandora_context_solr_metadata_display_callback(AbstractObject $object, $print = FALSE) {
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata')) {
-    if ($markup = $plugin->execute($object));
-    return $markup;
-  }
-  else {
-    return FALSE;
+    if ($markup = $plugin->execute($object)) {
+      return $markup;
+    }
+    else {
+      return FALSE;
+    }
   }
 }
 
@@ -260,6 +261,6 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
  * Implements hook_form_alter().
  */
 function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
-  $note = t("Note: Display configurations used in by Islandora Context don't use content models.");
+  $note = t("Display configurations triggered by Islandora Context need to have content models set as conditions, not using this form.");
   $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
 }
