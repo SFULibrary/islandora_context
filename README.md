@@ -20,7 +20,7 @@ It also provides three Context reactions:
 
 * Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
 * Use an Islandora Solr Metadata Configuration: Lets you choose a Solr Metadata display. The Islandora Solr Metadata module associates displays with content types; this reaction lets you associate displays with any context.
-* Return the object's RELS-EXT datastream; for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226"). (Experimental)
+* Return the object's RELS-EXT datastream; for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226") (experimental).
 
 ## Requirements
 
@@ -36,7 +36,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
-Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; alter a breadcrum or the navigation menu when displaying Islandora objects that have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadta display; or adding a rights statement to all objects that are in a specific collection.
+Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; alter a breadcrum or the navigation menu when displaying Islandora objects that have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadata display; or adding a rights statement to all objects that are in a specific collection.
 
 If you want to use the "Use an Islandora Solr Metadata Configuration" reaction, you will need to create a Solr Metadata configuration at admin/islandora/search/islandora_solr/metadata and then select "Islandora Solr Metadata managed by the Islandora Context module" as the default viewer at admin/islandora/metadata.
 
@@ -55,7 +55,7 @@ The conditions and reaction provided by this module can be used with other Conte
 
 And there are many more.
 
-One common use of Context is to change a site's theme based on certain conditions, using the [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context won't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Islandora Themekey](https://github.com/mjordan/islandora_themekey) module, which lets you switch your site's theme based on collection membership of the current Islandora object.
+One common use of Context is to change a site's theme based on certain conditions, using the [Context Reaction: Theme](https://drupal.org/project/context_reaction_theme) module. As stated on that module's project page, "you can only use Context Reaction: Theme with the 'Sitewide' or 'Path' conditions." This means that the conditions defined by Islandora Context can't initiate theme switching. To switch themes for collections or for members of a collection, you should use the Path condition to match for namespaces or PIDs. You may also want to check out the [Islandora Themekey](https://github.com/mjordan/islandora_themekey) module, which lets you switch your site's theme based on collection membership of the current Islandora object.
 
 ## Maintainer
 
