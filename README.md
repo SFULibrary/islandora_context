@@ -1,6 +1,8 @@
 # Islandora Context
 
-Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Think of this module as an "if-this-then-that" configurator for Islandora repositories. Use cases are welcome.
+Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Think of this module as an "if-this-then-that" configurator for Islandora repositories.
+
+Use cases, and ideas for new conditions and reactions, are welcome.
 
 ## Introduction
 
@@ -12,19 +14,19 @@ This module provides the following Context conditions:
 * Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.
 * Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
 * Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects. Allows choice of collection, non-collection, and all objects.
-* Perform basic content negotiation by detecting whether the requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
+* HTTP content negotiation: Detect whether a requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
 
 It also provides three Context reactions:
 
 * Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
-* Display an Islandora Solr Metadata Profile: Lets you choose a Solr Metadata display. The Islandora Solr Metadata module associates displays with content types; this reaction lets you associate displays with any context.
-* Return the object's RELS-EXT datastream (experimental); for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226").
+* Use an Islandora Solr Metadata Configuration: Lets you choose a Solr Metadata display. The Islandora Solr Metadata module associates displays with content types; this reaction lets you associate displays with any context.
+* Return the object's RELS-EXT datastream; for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226"). (Experimental)
 
 ## Requirements
 
 * [Islandora](https://github.com/Islandora/islandora)
 * [Context](https://dupal.org/project/context)
-* [Islandora Solr Metadata](https://github.com/Islandora/islandora_solr_metadata) if you want to use the "Display an Islandora Solr Metadata Profile" reaction.
+* [Islandora Solr Metadata](https://github.com/Islandora/islandora_solr_metadata) if you want to use the "Use an Islandora Solr Metadata Configuration" reaction.
 
 ## Installation
 
@@ -35,6 +37,8 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
 Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; alter a breadcrum or the navigation menu when displaying Islandora objects that have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadta display; or adding a rights statement to all objects that are in a specific collection.
+
+If you want to use the "Use an Islandora Solr Metadata Configuration" reaction, you will need to create a Solr Metadata configuration at admin/islandora/search/islandora_solr/metadata and then select "Islandora Solr Metadata managed by the Islandora Context module" as the default viewer at admin/islandora/metadata.
 
 The conditions and reaction provided by this module can be used with other Context modules, such as:
 
