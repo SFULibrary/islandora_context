@@ -153,7 +153,7 @@ function islandora_context_context_registry() {
         'plugin' => 'islandora_context_reaction_insert_text',
       ),
       'islandora_context_reaction_display_solr_metadata' => array(
-        'title' => t("Display an Islandora Solr Metadata profile"),
+        'title' => t("Use an Islandora Solr Metadata configuration"),
         'description' => t("Display a Solr Metadata profile."),
         'plugin' => 'islandora_context_reaction_display_solr_metadata',
       ),
@@ -261,6 +261,6 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
  * Implements hook_form_alter().
  */
 function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
-  $note = t("Display configurations triggered by Islandora Context need to have content models set as conditions, not using this form.");
+  $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an \"Islandora relationship\" Context condition. The content model defined here is ignored.");
   $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
 }
