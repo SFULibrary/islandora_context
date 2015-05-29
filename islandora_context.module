@@ -57,6 +57,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_condition',
     ),
   );
+  $plugins['islandora_context_condition_content_models'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_condition_cmodels.inc',
+      'class' => 'IslandoraContextConditionContentModels',
+      'parent' => 'context_condition',
+    ),
+  );
   $plugins['islandora_context_condition_keyword_in_datastream'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -130,6 +138,11 @@ function islandora_context_context_registry() {
         'description' => t("Choose this condition if you want to detect an object's membership in a collection."),
         'plugin' => 'islandora_context_condition_collection_member',
       ),
+      'islandora_context_condition_content_models' => array(
+        'title' => t('Islandora Content Models'),
+        'description' => t("Choose this condition if you want to detect an object's content models."),
+        'plugin' => 'islandora_context_condition_content_models',
+      ),
       'islandora_context_condition_keyword_in_datastream' => array(
         'title' => t('Islandora Keyword in Datastream'),
         'description' => t("Choose this condition if you want to detect keywords in an XML or text datastream."),
@@ -178,6 +191,9 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_collection_member')) {
+    $plugin->execute($object);
+  }
+  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_content_models')) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_keyword_in_datastream')) {
@@ -261,6 +277,6 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
  * Implements hook_form_alter().
  */
 function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
-  $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an \"Islandora relationship\" Context condition. The content model defined here is ignored.");
+  $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an \"Islandora Content Models\" Context condition. The content model defined here is ignored.");
   $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
 }
