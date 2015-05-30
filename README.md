@@ -36,7 +36,7 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 Install and configure. To create a context, go to Structure > Context and click on Add. The conditions and reactions listed above will appear in their respective sections of the context form.
 
-Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; disable specific theme regions when Islandora objects that have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadata display; or add a rights statement or other text to all objects that are in a specific collection.
+Some possible uses of this module are to display a certain block if an Islandora object has specific words in its MODS datastream; disable specific theme regions when Islandora objects have a specific relationship in their RELS-EXT; show users of a certain role a specific Solr Metadata display; or add a rights statement or other text to all objects that are in a specific collection.
 
 If you want to use the "Use an Islandora Solr Metadata Configuration" reaction, you will need to create a Solr Metadata configuration at admin/islandora/search/islandora_solr/metadata and then select "Islandora Solr Metadata managed by the Islandora Context module" as the default viewer at admin/islandora/metadata.
 
