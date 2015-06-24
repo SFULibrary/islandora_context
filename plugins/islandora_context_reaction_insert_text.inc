@@ -29,7 +29,7 @@ class IslandoraContextReactionInsertText extends context_reaction {
       'text_to_insert' => array(
         '#title' => t('Text to insert'),
         '#description' => t('Enter some text to insert when this reaction is active.'),
-        '#type' => 'textfield',
+        '#type' => 'textarea',
         '#default_value' => isset($settings['text_to_insert']) ? $settings['text_to_insert'] : '',
       ),
     );
