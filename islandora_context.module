@@ -184,8 +184,8 @@ function islandora_context_context_registry() {
         'plugin' => 'islandora_context_reaction_return_rdf',
       ),
       'islandora_context_reaction_restrict_by_ip' => array(
-        'title' => t("Restrict access to an Islandora object based on the client's IP address"),
-        'description' => t("Returns RDF representation of an Islandora object."),
+        'title' => t("User's IP address"),
+        'description' => t("Restrict access to an Islandora object based on the user's IP address."),
         'plugin' => 'islandora_context_reaction_restrict_by_ip',
       ),
     ),
