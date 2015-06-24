@@ -43,15 +43,15 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    *
    * @return bool
    *  TRUE if the client's IP address is in a registered range,
-   *   FALSE if it is not.
+   *    FALSE if it is not.
    */
   public function execute() {
     foreach ($this->get_contexts() as $context) {
       if (isset($context->reactions['islandora_context_reaction_restrict_by_ip']['allowed_ip_ranges'])) {
+        $is_allowed = FALSE;
         // Get client's IP address.
         $comparable_address = ip2long(ip_address());
-        $is_allowed = FALSE;
-        // Loop through the ranges and test to see if the address is detected.
+        // Loop through the ranges and test to see if the address is within any of them.
         $configured_ranges = $context->reactions['islandora_context_reaction_restrict_by_ip']['allowed_ip_ranges'];
         $ranges = explode(PHP_EOL, $configured_ranges);
         foreach ($ranges as $range) {
