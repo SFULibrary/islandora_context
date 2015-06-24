@@ -114,6 +114,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
+  $plugins['islandora_context_reaction_restrict_by_ip'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_restrict_by_ip.inc',
+      'class' => 'IslandoraContextReactionRestrictByIp',
+      'parent' => 'context_reaction',
+    ),
+  );
   return $plugins;
 }
 
@@ -175,6 +183,11 @@ function islandora_context_context_registry() {
         'description' => t("Returns RDF representation of an Islandora object."),
         'plugin' => 'islandora_context_reaction_return_rdf',
       ),
+      'islandora_context_reaction_restrict_by_ip' => array(
+        'title' => t("Restrict access to an Islandora object based on the client's IP address"),
+        'description' => t("Returns RDF representation of an Islandora object."),
+        'plugin' => 'islandora_context_reaction_restrict_by_ip',
+      ),
     ),
   );
 }
@@ -219,6 +232,12 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_insert_text')) {
     if ($markup = $plugin->execute()) {
       array_push($rendered, $markup);
+    }
+  }
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
+    $allowed = $plugin->execute();
+    if (!$allowed) {
+      drupal_access_denied();
     }
   }
 }

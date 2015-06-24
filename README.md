@@ -16,10 +16,11 @@ This module provides the following Context conditions:
 * Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects. Allows choice of collection, non-collection, and all objects.
 * HTTP content negotiation: Detect whether a requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
 
-It also provides three Context reactions:
+It also provides four Context reactions:
 
 * Insert text into Islandora object's display: Lets you define the text of a message (such as a rights statement) which is appended to an Islandora object's display. The HTML containing the message is themeable.
 * Use an Islandora Solr Metadata Configuration: Lets you choose a Solr Metadata display. The Islandora Solr Metadata module associates displays with content types; this reaction lets you associate displays with any context.
+* Restrict access to an Islandora object based on the client's IP address: Lets you define a set of IP ranges that object are allowed to be accesse from. Clients outside these ranges receive an "Access denied" message.
 * Return the object's RELS-EXT datastream; for use with the content negotiation condition plugin (e.g., curl -H "Accept: application/rdf+xml" "http://localhost:8181/islandora/object/islandora%253A226") (experimental).
 
 ## Requirements
