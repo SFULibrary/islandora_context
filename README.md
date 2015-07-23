@@ -1,6 +1,6 @@
 # Islandora Context
 
-Provides a set of [Context](https://dupal.org/project/context) "conditions" and "reactions" for Islandora objects. Think of this module as an "if-this-then-that" configurator for Islandora repositories.
+Provides a set of [Context](https://drupal.org/project/context) "conditions" and "reactions" for Islandora objects. Think of this module as an "if-this-then-that" configurator for Islandora repositories.
 
 Use cases, and ideas for new conditions and reactions, are welcome.
 
@@ -26,7 +26,7 @@ It also provides four Context reactions:
 ## Requirements
 
 * [Islandora](https://github.com/Islandora/islandora)
-* [Context](https://dupal.org/project/context)
+* [Context](https://drupal.org/project/context)
 * [Islandora Solr Metadata](https://github.com/Islandora/islandora_solr_metadata) if you want to use the "Use an Islandora Solr Metadata Configuration" reaction.
 
 ## Installation
