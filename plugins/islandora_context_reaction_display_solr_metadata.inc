@@ -23,9 +23,9 @@ class IslandoraContextReactionDisplaySolrMetadata extends context_reaction {
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
     module_load_include('inc', 'islandora_solr_metadata', 'includes/db');
-    $solr_metadta_configurations = islandora_solr_metadata_get_associations();
+    $solr_metadata_configurations = islandora_solr_metadata_get_associations();
     $dispaly_configurations = array();
-    foreach ($solr_metadta_configurations as $config) {
+    foreach ($solr_metadata_configurations as $config) {
       $display_configurations[$config['id']] = $config['name'];
     }
     
