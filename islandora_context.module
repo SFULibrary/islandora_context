@@ -106,6 +106,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
+  $plugins['islandora_context_reaction_display_solr_metadata_description'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_display_solr_metadata_description.inc',
+      'class' => 'IslandoraContextReactionDisplaySolrMetadataDescription',
+      'parent' => 'context_reaction',
+    ),
+  );
   $plugins['islandora_context_reaction_return_rdf'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -175,8 +183,13 @@ function islandora_context_context_registry() {
       ),
       'islandora_context_reaction_display_solr_metadata' => array(
         'title' => t("Use an Islandora Solr Metadata configuration"),
-        'description' => t("Display a Solr Metadata profile."),
+        'description' => t("Display a Solr Metadata configuration."),
         'plugin' => 'islandora_context_reaction_display_solr_metadata',
+      ),
+      'islandora_context_reaction_display_solr_metadata_description' => array(
+        'title' => t("Use the corresponding Islandora Solr Metadata description"),
+        'description' => t("Display a description element corresponding to the selected Solr Metadata configuration."),
+        'plugin' => 'islandora_context_reaction_display_solr_metadata_description',
       ),
       'islandora_context_reaction_return_rdf' => array(
         'title' => t("Return RDF for an Islandora object"),
@@ -289,7 +302,14 @@ function islandora_context_solr_metadata_display_callback(AbstractObject $object
  *   Markup representing the metadata display pulled from Solr.
  */
 function islandora_context_solr_metadata_description_callback(AbstractObject $object) {
-  return FALSE;
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata_description')) {
+    if ($markup = $plugin->execute($object)) {
+      return $markup;
+    }
+    else {
+      return FALSE;
+    }
+  }
 }
 
 /**
