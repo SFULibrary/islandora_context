@@ -22,22 +22,10 @@ class IslandoraContextReactionDisplaySolrMetadataDescription extends context_rea
   // @codingStandardsIgnoreStart
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
-    module_load_include('inc', 'islandora_solr_metadata', 'includes/db');
-    $solr_metadata_configurations = islandora_solr_metadata_get_associations();
-    $display_configurations = array();
-    foreach ($solr_metadata_configurations as $config) {
-      $display_configurations[$config['id']] = $config['name'];
-    }
-
     $form = array(
-      '#title' => t('Solr Metadata Configuration'),
       'solr_metadata_configuration' => array(
-        '#title' => t('Solr Metadata Configuration'),
-        '#description' => t('Choose the name of the Solr metadata configuration to use when reaction is active.'),
-        // '#type' => 'select',
         '#type' => 'value',
-        '#options' => $display_configurations,
-        '#default_value' => isset($settings['solr_metadata_configuration']) ? $settings['solr_metadata_configuration'] : '',
+        '#value' => isset($settings['solr_metadata_configuration']) ? $settings['solr_metadata_configuration'] : '',
       ),
     );
 
