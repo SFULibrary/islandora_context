@@ -251,6 +251,7 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
     $allowed = $plugin->execute();
     if (!$allowed) {
       drupal_access_denied();
+      drupal_exit();
     }
   }
 }
