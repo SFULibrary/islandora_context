@@ -73,5 +73,5 @@ Feedback and use cases for Islandora-specific "conditions" and "reactions" are w
 * [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
 * [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
 
-As a general rule, if disabling or changing a Context condition or reaction doesn't work after you make a change to it, clear your site's cache.
+As a general rule, if disabling or changing a Context condition or reaction doesn't work, clear your site's cache.
 
