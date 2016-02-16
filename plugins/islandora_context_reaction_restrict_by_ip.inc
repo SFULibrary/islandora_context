@@ -46,31 +46,61 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    *    FALSE if it is not.
    */
   public function execute() {
-    $is_allowed = TRUE;
+    dd("Plugin is starting to execute");
+    $is_allowed = array();
+    $foreachcounter = 0;
     foreach ($this->get_contexts() as $context) {
-      if (isset($context->reactions['islandora_context_reaction_restrict_by_ip']['allowed_ip_ranges'])) {
-        $is_allowed = FALSE;
-        // Get client's IP address.
-        $comparable_address = ip2long(ip_address());
-        // Loop through the ranges and test to see if the address is within any of them.
-        $configured_ranges = $context->reactions['islandora_context_reaction_restrict_by_ip']['allowed_ip_ranges'];
-        $ranges = explode(PHP_EOL, $configured_ranges);
-        foreach ($ranges as $range) {
-          list($low, $high) = explode(':', $range);
-          $comparable_high = ip2long(trim($high));
-          $comparable_low = ip2long(trim($low));
-          if ($comparable_address >= $comparable_low && $comparable_address <= $comparable_high) {
-            $is_allowed = TRUE;
-          }
-        }
-        if ($is_allowed) {
+      dd($foreachcounter++, 'Counter');
+      dd($context, "I am a context");
+      if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]))) {
+        $configured_ranges = $context->reactions[$this->plugin]['allowed_ip_ranges'];
+        $is_allowed = $this->check_ip($configured_ranges);
+
+        dd($is_allowed, "Is allowed array from within plugin");
+        if (in_array(1, $is_allowed)) {
           return TRUE;
         }
-        else {
+        if (in_array(0, $is_allowed)) {
           return FALSE;
         }
+      }
+      return NULL;
+    }
+
+
+  }
+
+  /**
+   * Loop through the ranges and test to see if the client's address is within any of them.
+   *
+   * @param string $configured_ip_ranges
+   *   The value of the reaction's configuration form field containing the IP ranges.
+   *
+   * @return array
+   */
+  private function check_ip($ip_ranges) {
+    $is_allowed = array();
+    // Get client's IP address and convert it to a long integer for comparison.
+    $comparable_address = ip2long(ip_address());
+    // !!!!!! Hard coded during testing. !!!!!!!
+    $test_ip = '142.58.130.143';
+    dd($test_ip, "IP");
+    $comparable_address = ip2long($test_ip);
+
+    $ranges = explode(PHP_EOL, $ip_ranges);
+    foreach ($ranges as $range) {
+      $range = preg_replace('/\s+/', '', $range);
+      list($low, $high) = explode(':', $range);
+      $comparable_low = ip2long($low);
+      $comparable_high = ip2long($high);
+      if ($comparable_address >= $comparable_low && $comparable_address <= $comparable_high) {
+        $is_allowed[] = 1;
+      }
+      else {
+        $is_allowed[] = 0;
       }
     }
     return $is_allowed;
   }
+
 }
