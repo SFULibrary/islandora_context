@@ -59,12 +59,12 @@ class IslandoraContextConditionNamespace extends context_condition {
   /**
    * Override of execute().
    */
-  public function execute($islandora_object) {
+  public function execute($pid) {
     if ($this->condition_used()) {
       foreach ($this->get_contexts() as $context) {
         $namespaces = $this->fetch_from_context($context, 'options');
         $namespace_list = explode(' ', trim($namespaces['islandora_namespaces']));
-        $object_namespace = preg_replace('/:.*$/', '', $islandora_object->id);
+        $object_namespace = preg_replace('/:.*$/', '', $pid);
         if (in_array($object_namespace . ':', $namespace_list)) {
           $this->condition_met($context);
         }

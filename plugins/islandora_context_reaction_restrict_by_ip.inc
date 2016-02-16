@@ -46,17 +46,12 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    *    FALSE if it is not.
    */
   public function execute() {
-    dd("Plugin is starting to execute");
     $is_allowed = array();
     $foreachcounter = 0;
     foreach ($this->get_contexts() as $context) {
-      dd($foreachcounter++, 'Counter');
-      dd($context, "I am a context");
       if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]))) {
         $configured_ranges = $context->reactions[$this->plugin]['allowed_ip_ranges'];
         $is_allowed = $this->check_ip($configured_ranges);
-
-        dd($is_allowed, "Is allowed array from within plugin");
         if (in_array(1, $is_allowed)) {
           return TRUE;
         }
@@ -84,7 +79,6 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
     $comparable_address = ip2long(ip_address());
     // !!!!!! Hard coded during testing. !!!!!!!
     $test_ip = '142.58.130.143';
-    dd($test_ip, "IP");
     $comparable_address = ip2long($test_ip);
 
     $ranges = explode(PHP_EOL, $ip_ranges);
