@@ -283,8 +283,9 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
     $plugin->execute($parent_object->id);
   }
 
-  $protected_dsids = array('OBJ', 'MODS', 'OCR');
-  if (($op == ISLANDORA_VIEW_OBJECTS) && in_array($datastream->id, $protected_dsids)) {
+  // Assumption here is that if a user is not allowed to view an object, they
+  // are not allowed to view any of the object's datastreams.
+  if (($op == ISLANDORA_VIEW_OBJECTS)) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $ip_is_allowed = $plugin->execute();
       if ($ip_is_allowed) {

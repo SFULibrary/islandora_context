@@ -27,7 +27,9 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
       '#title' => t('Allowed IP ranges'),
       'allowed_ip_ranges' => array(
         '#title' => t('Allowed IP ranges'),
-        '#description' => t('Enter the IP address ranges, one per line, that are allowed to view objects. Separate the low and high ends of each range with a colon, e.g. 111.111.111.111:222.222.222.222'),
+        '#description' => t('Enter the IP address ranges, one per line, that are allowed to view objects. ' .
+          'Separate the low and high ends of each range with a colon, e.g. 111.111.111.111:222.222.222.222. ' .
+          ' Asterisks are not allowed.'),
         '#type' => 'textarea',
         '#default_value' => isset($settings['allowed_ip_ranges']) ? $settings['allowed_ip_ranges'] : '',
       ),
@@ -41,13 +43,13 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    *
    * IP checking code borrowed from Islandora IP Embargo.
    *
-   * @return bool
+   * @return bool|NULL
    *  TRUE if the client's IP address is in a registered range,
-   *    FALSE if it is not.
+   *    FALSE if it is not. Null if no check is made because no IP addresses
+   *    have been registered.
    */
   public function execute() {
     $is_allowed = array();
-    $foreachcounter = 0;
     foreach ($this->get_contexts() as $context) {
       if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]))) {
         $configured_ranges = $context->reactions[$this->plugin]['allowed_ip_ranges'];
@@ -61,8 +63,6 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
       }
       return NULL;
     }
-
-
   }
 
   /**
@@ -75,11 +75,10 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    */
   private function check_ip($ip_ranges) {
     $is_allowed = array();
-    // Get client's IP address and convert it to a long integer for comparison.
+
+    // Get client's IP address and convert it to a long integer for
+    // comparison with the registered ranges.
     $comparable_address = ip2long(ip_address());
-    // !!!!!! Hard coded during testing. !!!!!!!
-    $test_ip = '142.58.130.143';
-    $comparable_address = ip2long($test_ip);
 
     $ranges = explode(PHP_EOL, $ip_ranges);
     foreach ($ranges as $range) {
