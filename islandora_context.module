@@ -362,6 +362,6 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
  * Implements hook_form_alter().
  */
 function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
-  $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an \"Islandora Content Models\" Context condition. The content model defined here is ignored.");
+  $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an 'Islandora Content Models' Context condition. The content model defined here is ignored.");
   $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
 }

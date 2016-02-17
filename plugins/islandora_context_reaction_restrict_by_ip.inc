@@ -1,8 +1,9 @@
 <?php
 /**
  * @file
- * Context plugin that restricts access to Islandora objects 
- * based on the IP address of the client.
+ * Context plugin that restricts access to Islandora objects.
+ *
+ * Compares client IP address to set of registered addresses.
  */
 
 /**
@@ -44,7 +45,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    * IP checking code borrowed from Islandora IP Embargo.
    *
    * @return bool|NULL
-   *  TRUE if the client's IP address is in a registered range,
+   *    TRUE if the client's IP address is in a registered range,
    *    FALSE if it is not. Null if no check is made because no IP addresses
    *    have been registered.
    */
@@ -66,12 +67,15 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
   }
 
   /**
-   * Loop through the ranges and test to see if the client's address is within any of them.
+   * Loop through IP ranges to see if the client address is within any of them.
    *
-   * @param string $configured_ip_ranges
-   *   The value of the reaction's configuration form field containing the IP ranges.
+   * @param string $ip_ranges
+   *   The value of the reaction's configuration form field containing the
+   *   IP ranges.
    *
    * @return array
+   *   An array that may contain 1 or 0 to indicate whether the client IP
+   *   address was within each range.
    */
   private function check_ip($ip_ranges) {
     $is_allowed = array();

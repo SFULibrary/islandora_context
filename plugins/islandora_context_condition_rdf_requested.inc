@@ -45,12 +45,13 @@ class IslandoraContextConditionRdfRequested extends context_condition {
   public function execute() {
     if ($this->condition_used()) {
       foreach ($this->get_contexts() as $context) {
-          // Detect whether the client has requested RDF.
-          $request_headers = getallheaders();
-          if (isset($request_headers['Accept']) && $request_headers['Accept'] == 'application/rdf+xml') {
-            $this->condition_met($context);
-          }
+        // Detect whether the client has requested RDF.
+        $request_headers = getallheaders();
+        if (isset($request_headers['Accept']) && $request_headers['Accept'] == 'application/rdf+xml') {
+          $this->condition_met($context);
+        }
       }
     }
   }
+
 }

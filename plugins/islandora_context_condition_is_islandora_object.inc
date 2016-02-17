@@ -114,4 +114,5 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
       }
     }
   }
+
 }

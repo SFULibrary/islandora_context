@@ -1,8 +1,9 @@
 <?php
 /**
  * @file
- * Context plugin that generates a message to be displayed at the top
- * of an Islandora object's display.
+ * Context plugin that generates a message.
+ *
+ * Message is displayed at the bottom of an Islandora object's display.
  */
 
 /**
@@ -55,4 +56,5 @@ class IslandoraContextReactionInsertText extends context_reaction {
 
     return $markup;
   }
+
 }

@@ -77,11 +77,11 @@ class IslandoraContextConditionContentModels extends context_condition {
       }
     }
   }
+
 }
 
 /**
- * Query the resource index to get a list of all content model objects
- * installed in the current Islandora instance.
+ * Query the resource index to get a list of all content model objects.
  *
  * @return array
  *   Associative array of pid => label pairs.

@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Context plugin that loads an Islandora Solr Metadata display
- * configuration.
+ * Context plugin that loads an Islandora Solr Metadata display configuration.
  */
 
 /**
@@ -44,8 +43,7 @@ class IslandoraContextReactionDisplaySolrMetadata extends context_reaction {
   // @codingStandardsIgnoreEnd
 
   /**
-   * Grab the Islandora Solr Metadata configuration asssociated with this
-   * context and pass it off to the theming function.
+   * Pass the Islandora Solr Metadata configuration to the theming function.
    */
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
@@ -59,4 +57,5 @@ class IslandoraContextReactionDisplaySolrMetadata extends context_reaction {
       }
     }
   }
+
 }

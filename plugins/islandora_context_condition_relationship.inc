@@ -96,4 +96,5 @@ class IslandoraContextConditionRelationship extends context_condition {
       }
     }
   }
+
 }

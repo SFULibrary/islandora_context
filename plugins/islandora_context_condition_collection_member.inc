@@ -77,6 +77,7 @@ class IslandoraContextConditionCollectionMember extends context_condition {
       }
     }
   }
+
 }
 
 /**

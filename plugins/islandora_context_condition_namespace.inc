@@ -71,4 +71,5 @@ class IslandoraContextConditionNamespace extends context_condition {
       }
     }
   }
+
 }

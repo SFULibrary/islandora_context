@@ -27,4 +27,5 @@ class IslandoraContextReactionReturnRdf extends context_reaction {
       }
     }
   }
+
 }

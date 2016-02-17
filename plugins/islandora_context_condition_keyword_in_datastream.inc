@@ -85,4 +85,5 @@ class IslandoraContextConditionKeywordInDatastream extends context_condition {
       }
     }
   }
+
 }

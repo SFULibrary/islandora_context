@@ -2,6 +2,7 @@
 /**
  * @file
  * Context plugin that loads an Islandora Solr Metadata display configuration.
+ *
  * Must be used in conjunction with an Islandora Solr Metadtata configuration.
  */
 
@@ -36,8 +37,7 @@ class IslandoraContextReactionDisplaySolrMetadataDescription extends context_rea
 
 
   /**
-   * Grab the Islandora Solr Metadata configuration asssociated with this
-   * context and pass it off to the theming function.
+   * Pass the Islandora Solr Metadata configuration to the theming function.
    */
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
