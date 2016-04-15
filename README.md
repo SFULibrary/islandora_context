@@ -9,6 +9,7 @@ Use cases, and ideas for new conditions and reactions, are welcome.
 This module provides the following Context conditions:
 
 * Collection membership: Define a set of collections; if the current object is a member of a collection in this set, the condition is triggered.
+* Collection is empty: Determine if a collection object is empty (i.e., has no members). If the current collection object is empty, this condition is triggered.
 * Content models: Define a set of content models; if the current object has any of the content models in this set, the condition is triggered.
 * Object namespace: Define a list of PID namespaces; if the current object's namespace is in this list, the condition is triggered.
 * Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.

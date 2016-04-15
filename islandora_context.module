@@ -57,6 +57,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_condition',
     ),
   );
+  $plugins['islandora_context_condition_collection_is_empty'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_condition_collection_is_empty.inc',
+      'class' => 'IslandoraContextConditionCollectionIsEmpty',
+      'parent' => 'context_condition',
+    ),
+  );
   $plugins['islandora_context_condition_content_models'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -154,6 +162,11 @@ function islandora_context_context_registry() {
         'description' => t("Choose this condition if you want to detect an object's membership in a collection."),
         'plugin' => 'islandora_context_condition_collection_member',
       ),
+      'islandora_context_condition_collection_is_empty' => array(
+        'title' => t('Islandora Collection Is Empty'),
+        'description' => t("Choose this condition if you want to detect whether a collection object is empty (has no members)."),
+        'plugin' => 'islandora_context_condition_collection_is_empty',
+      ),
       'islandora_context_condition_content_models' => array(
         'title' => t('Islandora Content Models'),
         'description' => t("Choose this condition if you want to detect an object's content models."),
@@ -214,6 +227,9 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_collection_member')) {
+    $plugin->execute($object);
+  }
+  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_collection_is_empty')) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_content_models')) {
