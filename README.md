@@ -15,6 +15,7 @@ This module provides the following Context conditions:
 * Object relationships: Define a statement stored in RELS-EXT; if the current object's RELS-EXT contains the relationship, the condition is triggered.
 * Keywords in datastream: Define a DSID and a list of keywords; if any of the keywords in the list is found in the designated datastream, the condition is triggered.
 * Is Islandora Object: Set this condition if you want the context to apply to all Islandora objects. Allows choice of collection, non-collection, and all objects.
+* Book content model viewer is 'none': Set this condition if you want to detect whether the Book Solution Pack's default viewer is set to 'none'.
 * HTTP content negotiation: Detect whether a requesting client has included an 'Accept' header with the value 'application/rdf+xml' (experimental).
 
 It also provides four Context reactions:
