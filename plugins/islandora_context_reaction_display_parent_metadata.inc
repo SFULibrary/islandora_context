@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Context plugin that loads an Islandora Solr Metadata display configuration.
+ * Context plugin that renders an object's parent's metadata.
  *
  * The resulting metadata applies to an object's parent, and is rendered below
  * the object's 'Details' div.
@@ -10,7 +10,7 @@
 /**
  * Expose a message as a context reaction.
  */
-class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction {
+class IslandoraContextReactionDisplayParentMetadata extends context_reaction {
 
   /**
    * Allow the admin to define some text to display.
@@ -42,9 +42,9 @@ class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction
    */
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
-      // This reaction is used in conjuction with a Solr metadata display configuration.
+      // If the object has a Solr metadata display configuration associated with it.
       if (isset($context->reactions['islandora_context_reaction_display_solr_metadata']['solr_metadata_configuration'])) {
-        $label = $context->reactions['islandora_context_reaction_display_parent_solr_metadata']['parent_metadata_label'];
+        $label = $context->reactions['islandora_context_reaction_display_parent_metadata']['parent_metadata_label'];
         $parent_info = islandora_compound_object_retrieve_compound_info($object);
         if (isset($parent_info['parent_pid'])) {
           $parent_object = islandora_object_load($parent_info['parent_pid']);
@@ -54,6 +54,21 @@ class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction
             'print' => FALSE,
           );
           $markup = theme('islandora_solr_metadata_display', $elements);
+          // The label 'Details' is not themable so we search 'n replace in the themed HTML!
+          $markup = preg_replace('|Details|' , $label, $markup);
+          return $markup;
+        }
+        else {
+          return '';
+        }
+      }
+      // If the object does not have a Solr metadata display configuration associated with it.
+      else {
+        $label = $context->reactions['islandora_context_reaction_display_parent_metadata']['parent_metadata_label'];
+        $parent_info = islandora_compound_object_retrieve_compound_info($object);
+        if (isset($parent_info['parent_pid'])) {
+          $parent_object = islandora_object_load($parent_info['parent_pid']);
+          $markup = theme('islandora_dublin_core_display', array('islandora_object' => $parent_object));
           // The label 'Details' is not themable so we search 'n replace in the themed HTML!
           $markup = preg_replace('|Details|' , $label, $markup);
           return $markup;

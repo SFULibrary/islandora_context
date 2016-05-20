@@ -146,11 +146,11 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
-  $plugins['islandora_context_reaction_display_parent_solr_metadata'] = array(
+  $plugins['islandora_context_reaction_display_parent_metadata'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
-      'file' => 'islandora_context_reaction_display_parent_solr_metadata.inc',
-      'class' => 'IslandoraContextReactionDisplayParentSolrMetadata',
+      'file' => 'islandora_context_reaction_display_parent_metadata.inc',
+      'class' => 'IslandoraContextReactionDisplayParentMetadata',
       'parent' => 'context_reaction',
     ),
   );
@@ -235,10 +235,10 @@ function islandora_context_context_registry() {
         'description' => t("Restrict access to an Islandora object based on the user's IP address."),
         'plugin' => 'islandora_context_reaction_restrict_by_ip',
       ),
-      'islandora_context_reaction_display_parent_solr_metadata' => array(
-        'title' => t("Display the metadata of an object's compund parent"),
+      'islandora_context_reaction_display_parent_metadata' => array(
+        'title' => t("Display the metadata of an object's compound parent"),
         'description' => t("If an object is a child in a compound, display its parent's metadata."),
-        'plugin' => 'islandora_context_reaction_display_parent_solr_metadata',
+        'plugin' => 'islandora_context_reaction_display_parent_metadata',
       ),
     ),
   );
@@ -284,7 +284,7 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_return_rdf')) {
     $plugin->execute($object);
   }
-  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_parent_solr_metadata')) {
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_parent_metadata')) {
     if ($markup = $plugin->execute($object)) {
       if (isset($rendered[NULL])) {
         $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
