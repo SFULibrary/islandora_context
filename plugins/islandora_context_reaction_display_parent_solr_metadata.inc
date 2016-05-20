@@ -25,12 +25,14 @@ class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
     $form = array(
-      'solr_metadata_configuration' => array(
-        '#type' => 'value',
-        '#value' => isset($settings['solr_metadata_configuration']) ? $settings['solr_metadata_configuration'] : '',
+      '#title' => t('Label for parent metadata'),
+      'parent_metadata_label' => array(
+        '#title' => t('Label for parent metadata'),
+        '#description' => t('Enter the label for the collapsible div containing the parent metadata.'),
+        '#type' => 'textfield',
+        '#default_value' => isset($settings['parent_metadata_label']) ? $settings['parent_metadata_label'] : 'Is part of',
       ),
     );
-
     return $form;
   }
   // @codingStandardsIgnoreEnd
@@ -40,7 +42,9 @@ class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction
    */
   public function execute($object) {
     foreach ($this->get_contexts() as $context) {
+      // This reaction is used in conjuction with a Solr metadata display configuration.
       if (isset($context->reactions['islandora_context_reaction_display_solr_metadata']['solr_metadata_configuration'])) {
+        $label = $context->reactions['islandora_context_reaction_display_parent_solr_metadata']['parent_metadata_label'];
         $parent_info = islandora_compound_object_retrieve_compound_info($object);
         if (isset($parent_info['parent_pid'])) {
           $parent_object = islandora_object_load($parent_info['parent_pid']);
@@ -50,9 +54,8 @@ class IslandoraContextReactionDisplayParentSolrMetadata extends context_reaction
             'print' => FALSE,
           );
           $markup = theme('islandora_solr_metadata_display', $elements);
-          // The label 'Details' is not themable. We probobably want to offer a reaction-specific
-          // option for this label.
-          $markup = preg_replace('|Details|' , 'Is part of', $markup);
+          // The label 'Details' is not themable so we search 'n replace in the themed HTML!
+          $markup = preg_replace('|Details|' , $label, $markup);
           return $markup;
         }
         else {
