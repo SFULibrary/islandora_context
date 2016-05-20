@@ -286,12 +286,16 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
   }
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_parent_solr_metadata')) {
     if ($markup = $plugin->execute($object)) {
-      array_push($rendered, $markup);
+      if (isset($rendered[NULL])) {
+        $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
+      }
     }
   }
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_insert_text')) {
     if ($markup = $plugin->execute()) {
-      array_push($rendered, $markup);
+      if (isset($rendered[NULL])) {
+        $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
+      }
     }
   }
 }
