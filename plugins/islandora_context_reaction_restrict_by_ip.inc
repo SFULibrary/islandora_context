@@ -23,6 +23,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
   // @codingStandardsIgnoreStart
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
+    $roles = user_roles();
     
     $form = array(
       '#title' => t('Allowed IP ranges'),
@@ -33,6 +34,14 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
           ' Asterisks are not allowed.'),
         '#type' => 'textarea',
         '#default_value' => isset($settings['allowed_ip_ranges']) ? $settings['allowed_ip_ranges'] : '',
+      ),
+      'exclude_roles' => array(
+        '#title' => t('Exclude roles'),
+        '#description' => t('Users with these roles bypass IP restrictions.'),
+        '#type' => 'select',
+        '#multiple' => TRUE,
+        '#options' => $roles,
+        '#default_value' => isset($settings['exclude_roles']) ? $settings['exclude_roles'] : '',
       ),
     );
     return $form;
@@ -52,6 +61,16 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
   public function execute() {
     $is_allowed = array();
     foreach ($this->get_contexts() as $context) {
+      $excluded_roles = $context->reactions[$this->plugin]['exclude_roles'];
+      // Check to see if the current user has any of the excluded roles
+      // and if so, return NULL.
+      global $user;
+      $users_roles = array_keys($user->roles);
+      $intersect = array_intersect($excluded_roles, $users_roles);
+      if (count($intersect)) {
+        return NULL;
+      }
+
       if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]))) {
         $configured_ranges = $context->reactions[$this->plugin]['allowed_ip_ranges'];
         $is_allowed = $this->check_ip($configured_ranges);
