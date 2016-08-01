@@ -58,13 +58,6 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
         '#default_value' => isset($values['options']['islandora_is_islandora_object_types']) ?
           $values['options']['islandora_is_islandora_object_types'] : 'both',
       ),
-      'islandora_is_islandora_object' => array(
-        '#type' => 'checkbox',
-        '#title' => t('Apply to all Islandora objects'),
-        '#description' => t('Set this condition when you want the context to apply to all Islandora objects of the type selected above.'),
-        '#default_value' => isset($values['options']['islandora_is_islandora_object']) ?
-          $values['options']['islandora_is_islandora_object'] : FALSE,
-      ),
     );
   }
   // @codingStandardsIgnoreEnd
@@ -77,15 +70,13 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
       foreach ($this->get_contexts() as $context) {
         $values = $this->fetch_from_context($context);
         // For all objects.
-        if ($values['options']['islandora_is_islandora_object'] &&
-          ($values['options']['islandora_is_islandora_object_types'] == 'both')) {
+        if  ($values['options']['islandora_is_islandora_object_types'] == 'both') {
           if (is_object($islandora_object) && property_exists($islandora_object, 'id')) {
             $this->condition_met($context);
           }
         }
         // For collection objects.
-        if ($values['options']['islandora_is_islandora_object'] &&
-          ($values['options']['islandora_is_islandora_object_types'] == 'collection')) {
+        if  ($values['options']['islandora_is_islandora_object_types'] == 'collection') {
           $cmodels = $islandora_object->relationships->get('info:fedora/fedora-system:def/model#', 'hasModel');
           $islandora_object_cmodels = array();
           foreach ($cmodels as $cmodel) {
@@ -98,8 +89,7 @@ class IslandoraContextConditionIsIslandoraObject extends context_condition {
           }
         }
         // For non-collection objects.
-        if ($values['options']['islandora_is_islandora_object'] &&
-          ($values['options']['islandora_is_islandora_object_types'] == 'noncollection')) {
+        if ($values['options']['islandora_is_islandora_object_types'] == 'noncollection') {
           $cmodels = $islandora_object->relationships->get('info:fedora/fedora-system:def/model#', 'hasModel');
           $islandora_object_cmodels = array();
           foreach ($cmodels as $cmodel) {
