@@ -313,32 +313,30 @@ function islandora_context_islandora_object_access($op, $object, $user) {
   if ($op == ISLANDORA_VIEW_OBJECTS) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $ip_is_allowed = $plugin->execute();
-      if ($ip_is_allowed) {
-        return TRUE;
-      }
-      elseif (is_null($ip_is_allowed)) {
-        return NULL;
-      }
-      elseif (is_array($ip_is_allowed)) {
-      // First member will be the redirect URL, and second, if present,
-      // will be a boolean indicating whether to append the object's URL
-      // to the redirect URL.
+      if (is_array($ip_is_allowed)) {
+        // First member will be the redirect URL, and second, if present,
+        // will be a boolean indicating whether to append the object's URL
+        // to the redirect URL.
         if (count($ip_is_allowed) == 1) {
           drupal_goto($ip_is_allowed[0]);
         }
         else {
           global $base_url;
-          $redirect_target = $redirect_url . urlencode($base_url . '/' . current_path());
+          $redirect_target = $ip_is_allowed[0] . urlencode($base_url . '/' . current_path());
           drupal_goto($redirect_target);
         }
+        return NULL;
+      }
+      elseif ($ip_is_allowed) {
+        return TRUE;
+      }
+      elseif (is_null($ip_is_allowed)) {
         return NULL;
       }
       else {
         return FALSE;
       }
     }
-
-
   }
 }
 
