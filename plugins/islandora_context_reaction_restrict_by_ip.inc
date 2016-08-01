@@ -56,10 +56,12 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
    *
    * IP checking code borrowed from Islandora IP Embargo.
    *
-   * @return bool|NULL
+   * @return bool|array|NULL
    *    TRUE if the client's IP address is in a registered range,
    *    FALSE if it is not. Null if no check is made because no IP addresses
-   *    have been registered.
+   *    have been registered. If redirect_url option is configured, return
+   *    an array containing the redirect_url value and the optional append
+   *    object URL flag.
    */
   public function execute() {
     $is_allowed = array();
@@ -70,6 +72,17 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
         if (in_array(1, $is_allowed)) {
           return TRUE;
         }
+
+        if (in_array(0, $is_allowed) && strlen($context->reactions[$this->plugin]['redirect_url'])) {
+          $return = array($context->reactions[$this->plugin]['redirect_url']);
+          if ($context->reactions[$this->plugin]['append_object_url']) {
+            $return[] = TRUE; 
+          }
+          return $return;
+        }
+
+
+
         if (in_array(0, $is_allowed)) {
           return FALSE;
         }

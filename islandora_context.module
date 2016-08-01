@@ -319,10 +319,26 @@ function islandora_context_islandora_object_access($op, $object, $user) {
       elseif (is_null($ip_is_allowed)) {
         return NULL;
       }
+      elseif (is_array($ip_is_allowed)) {
+      // First member will be the redirect URL, and second, if present,
+      // will be a boolean indicating whether to append the object's URL
+      // to the redirect URL.
+        if (count($ip_is_allowed) == 1) {
+          drupal_goto($ip_is_allowed[0]);
+        }
+        else {
+          global $base_url;
+          $redirect_target = $redirect_url . urlencode($base_url . '/' . current_path());
+          drupal_goto($redirect_target);
+        }
+        return NULL;
+      }
       else {
         return FALSE;
       }
     }
+
+
   }
 }
 
