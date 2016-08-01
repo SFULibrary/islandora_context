@@ -108,6 +108,9 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
     $ranges = explode(PHP_EOL, $ip_ranges);
     foreach ($ranges as $range) {
       $range = preg_replace('/\s+/', '', $range);
+      if (!strlen($range)) {
+        continue;
+      }
       list($low, $high) = explode(':', $range);
       $comparable_low = ip2long($low);
       $comparable_high = ip2long($high);
