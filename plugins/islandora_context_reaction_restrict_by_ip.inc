@@ -35,8 +35,8 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
       ),
       'redirect_url' => array(
         '#title' => t('Redirect URL'),
-        '#description' => t("URL to redirect user to. If option below is checked, object's " .
-          "URL will be appended to this URL"),
+        '#description' => t("URL to redirect user to, e.g., an Ezproxy login URL. If option below is " .
+          " checked, object's URL will be appended to this URL."),
         '#type' => 'textfield',
         '#default_value' => isset($settings['redirect_url']) ? $settings['redirect_url'] : '',
       ),
@@ -72,7 +72,6 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
         if (in_array(1, $is_allowed)) {
           return TRUE;
         }
-
         if (in_array(0, $is_allowed) && strlen($context->reactions[$this->plugin]['redirect_url'])) {
           $return = array($context->reactions[$this->plugin]['redirect_url']);
           if ($context->reactions[$this->plugin]['append_object_url']) {
@@ -80,9 +79,6 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
           }
           return $return;
         }
-
-
-
         if (in_array(0, $is_allowed)) {
           return FALSE;
         }
