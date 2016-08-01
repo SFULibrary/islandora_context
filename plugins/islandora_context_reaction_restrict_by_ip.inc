@@ -23,7 +23,6 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
   // @codingStandardsIgnoreStart
   function options_form($context) {
     $settings = $this->fetch_from_context($context);
-    
     $form = array(
       '#title' => t('Allowed IP ranges'),
       'allowed_ip_ranges' => array(
@@ -33,6 +32,19 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
           ' Asterisks are not allowed.'),
         '#type' => 'textarea',
         '#default_value' => isset($settings['allowed_ip_ranges']) ? $settings['allowed_ip_ranges'] : '',
+      ),
+      'redirect_url' => array(
+        '#title' => t('Redirect URL'),
+        '#description' => t("URL to redirect user to. If option below is checked, object's " .
+          "URL will be appended to this URL"),
+        '#type' => 'textfield',
+        '#default_value' => isset($settings['redirect_url']) ? $settings['redirect_url'] : '',
+      ),
+      'append_object_url' => array(
+        '#type' => 'checkbox',
+        '#title' => t("Append object's URL"),
+        '#default_value' => isset($settings['append_object_url']) ?
+          $settings['append_object_url'] : FALSE,
       ),
     );
     return $form;
