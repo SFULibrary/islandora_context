@@ -154,6 +154,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
+  $plugins['islandora_context_reaction_use_viewer'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_use_viewer.inc',
+      'class' => 'IslandoraContextReactionUseViewer',
+      'parent' => 'context_reaction',
+    ),
+  );
   return $plugins;
 }
 
@@ -240,6 +248,11 @@ function islandora_context_context_registry() {
         'description' => t("If an object is a child in a compound, display its parent's metadata."),
         'plugin' => 'islandora_context_reaction_display_parent_metadata',
       ),
+      'islandora_context_reaction_use_viewer' => array(
+        'title' => t("Use an Islandora viewer"),
+        'description' => t("Use an Islandora viewer."),
+        'plugin' => 'islandora_context_reaction_use_viewer',
+      ),
     ),
   );
 }
@@ -273,6 +286,7 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_rdf_requested')) {
     $plugin->execute($object);
   }
+
   return array();
 }
 
@@ -432,4 +446,18 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
 function islandora_context_form_islandora_solr_metadata_config_form_alter(&$form, &$form_state, $form_id) {
   $note = t("If you want to use a content model with a Display configuration triggered by Islandora Context, you need to create an 'Islandora Content Models' Context condition. The content model defined here is ignored.");
   $form['islandora_solr_metadata_cmodels']['table_wrapper']['cmodel_options']['#description'] = $note;
+}
+
+/**
+ * Preprocessor for theme('islandora_basic_image').
+ *
+ * Other content models to come....
+ */
+function islandora_context_preprocess_islandora_basic_image(&$vars) {
+  $islandora_object = $vars['islandora_object'];
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_use_viewer')) {
+    if ($viewer = $plugin->execute($islandora_object)) {
+      $vars['islandora_content'] = $viewer;
+    }
+  }
 }
