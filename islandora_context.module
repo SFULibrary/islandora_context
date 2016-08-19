@@ -335,9 +335,14 @@ function islandora_context_islandora_object_access($op, $object, $user) {
           drupal_goto($ip_is_allowed[0]);
         }
         else {
-          global $base_url;
-          $redirect_target = $ip_is_allowed[0] . $base_url . '/' . current_path();
-          drupal_goto($redirect_target);
+          $current_path = current_path();
+          // Make an exception to the redirect for thumbnails, since
+          // they should be viewable by everyone.
+          if (!preg_match('##', 'datastream/TN/view', $current_path)) {
+            global $base_url;
+            $redirect_target = $ip_is_allowed[0] . $base_url . '/' . current_path();
+            drupal_goto($redirect_target);
+          }
         }
         return NULL;
       }
@@ -358,6 +363,11 @@ function islandora_context_islandora_object_access($op, $object, $user) {
  * Implements hook_islandora_datastream_access().
  */
 function islandora_context_islandora_datastream_access($op, $datastream, $user) {
+  // Thumbnails should be viewable by everyone.
+  if (($op == ISLANDORA_VIEW_OBJECTS) && ($datastream->id == 'TN')) {
+    return TRUE;
+  }
+
   // This condition needs to be set as early as possible in the datastream
   // access lifecycle.
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_namespace')) {
@@ -367,7 +377,7 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
 
   // Assumption here is that if a user is not allowed to view an object, they
   // are not allowed to view any of the object's datastreams other than TN.
-  if (($op == ISLANDORA_VIEW_OBJECTS) && ($datastream->id != 'TN')) {
+  if ($op == ISLANDORA_VIEW_OBJECTS) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $ip_is_allowed = $plugin->execute();
       if ($ip_is_allowed) {
