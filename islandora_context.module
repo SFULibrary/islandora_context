@@ -340,7 +340,7 @@ function islandora_context_islandora_object_access($op, $object, $user) {
           // they should be viewable by everyone.
           if (!preg_match('#datastream/TN/view#', $current_path)) {
             global $base_url;
-            $redirect_target = $ip_is_allowed[0] . $base_url . '/' . current_path();
+            $redirect_target = $ip_is_allowed[0] . $base_url . '/' . $current_path;
             drupal_goto($redirect_target);
           }
         }
