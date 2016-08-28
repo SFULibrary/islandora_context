@@ -75,7 +75,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
         if (in_array(0, $is_allowed) && strlen($context->reactions[$this->plugin]['redirect_url'])) {
           $return = array($context->reactions[$this->plugin]['redirect_url']);
           if ($context->reactions[$this->plugin]['append_object_url']) {
-            $return[] = TRUE; 
+            $return[] = TRUE;
           }
           return $return;
         }
@@ -105,7 +105,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
     // comparison with the registered ranges.
     $comparable_address = ip2long(ip_address());
 
-    $ranges = explode(PHP_EOL, $ip_ranges);
+    $ranges = preg_split("/\\r\\n|\\r|\\n/", $ip_ranges);
     foreach ($ranges as $range) {
       $range = preg_replace('/\s+/', '', $range);
       if (!strlen($range)) {
