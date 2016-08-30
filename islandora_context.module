@@ -440,14 +440,13 @@ function islandora_context_solr_metadata_display_callback(AbstractObject $object
  *   Markup representing the metadata display pulled from Solr.
  */
 function islandora_context_solr_metadata_description_callback(AbstractObject $object) {
+  $markup = '';
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata_description')) {
     if ($markup = $plugin->execute($object)) {
       return $markup;
     }
-    else {
-      return FALSE;
-    }
   }
+  return $markup;
 }
 
 /**
