@@ -324,7 +324,7 @@ function islandora_context_islandora_object_access($op, $object, $user) {
     $plugin->execute($object->id);
   }
 
-  if ($op == ISLANDORA_VIEW_OBJECTS) {
+  if ($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_OBJECT_GET_PERM) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $ip_is_allowed = $plugin->execute();
       if (is_array($ip_is_allowed)) {
@@ -363,8 +363,11 @@ function islandora_context_islandora_object_access($op, $object, $user) {
  * Implements hook_islandora_datastream_access().
  */
 function islandora_context_islandora_datastream_access($op, $datastream, $user) {
-  // Thumbnails should be viewable by everyone.
-  if (($op == ISLANDORA_VIEW_OBJECTS) && ($datastream->id == 'TN')) {
+  // Thumbnails should be viewable by everyone, including REST clients.
+  // Counterintuitively, ISLANDORA_REST_DATASTREAM_GET_PERM is the correct
+  // permission here and in the next check for requests via the islandora_rest
+  // API - TNs remain viewable, other datastreams are correctly restricted.
+  if (($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_DATASTREAM_GET_PERM) && ($datastream->id == 'TN')) {
     return TRUE;
   }
 
@@ -377,7 +380,7 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
 
   // Assumption here is that if a user is not allowed to view an object, they
   // are not allowed to view any of the object's datastreams other than TN.
-  if ($op == ISLANDORA_VIEW_OBJECTS) {
+  if ($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_DATASTREAM_GET_PERM) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $ip_is_allowed = $plugin->execute();
       if ($ip_is_allowed) {
