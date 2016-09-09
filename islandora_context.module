@@ -326,7 +326,23 @@ function islandora_context_islandora_object_access($op, $object, $user) {
 
   if ($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_OBJECT_GET_PERM) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
+      $current_path = current_path();
       $ip_is_allowed = $plugin->execute();
+
+      // Handle REST API requests.
+      if (preg_match('#islandora/rest/v1/object#', $current_path)) {
+        // Provide access to TN datastreams to everyone.
+        if (preg_match('#/datastream/TN#', $current_path)) {
+          return TRUE;
+        }
+        else {
+          if ($ip_is_allowed === FALSE || is_array($ip_is_allowed)) {
+            return FALSE;
+          }
+        }
+      }
+      
+      // For non-REST requests.
       if (is_array($ip_is_allowed)) {
         // First member will be the redirect URL, and second, if present,
         // will be a boolean indicating whether to append the object's URL
@@ -335,9 +351,9 @@ function islandora_context_islandora_object_access($op, $object, $user) {
           drupal_goto($ip_is_allowed[0]);
         }
         else {
-          $current_path = current_path();
           // Make an exception to the redirect for thumbnails, since
           // they should be viewable by everyone.
+          // if (!preg_match('#datastream/TN/view|rest/v+/object/.+/datastream/TN#', $current_path)) {
           if (!preg_match('#datastream/TN/view#', $current_path)) {
             global $base_url;
             $redirect_target = $ip_is_allowed[0] . $base_url . '/' . $current_path;
@@ -366,7 +382,7 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
   // Thumbnails should be viewable by everyone, including REST clients.
   // Counterintuitively, ISLANDORA_REST_DATASTREAM_GET_PERM is the correct
   // permission here and in the next check for requests via the islandora_rest
-  // API - TNs remain viewable, other datastreams are correctly restricted.
+  // API; TNs remain viewable, other datastreams are correctly restricted.
   if (($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_DATASTREAM_GET_PERM) && ($datastream->id == 'TN')) {
     return TRUE;
   }
@@ -382,7 +398,17 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
   // are not allowed to view any of the object's datastreams other than TN.
   if ($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_DATASTREAM_GET_PERM) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
+      $current_path = current_path();
       $ip_is_allowed = $plugin->execute();
+
+      // Handle REST API requests.
+      if (preg_match('#islandora/rest/v1/object/#', $current_path)) {
+        if ($ip_is_allowed === FALSE || is_array($ip_is_allowed)) {
+          return FALSE;
+        }
+      }
+
+      // For non-REST requests.
       if ($ip_is_allowed) {
         return TRUE;
       }
@@ -392,6 +418,7 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
       else {
         return FALSE;
       }
+
     }
   }
 }
