@@ -342,7 +342,7 @@ function islandora_context_islandora_object_access($op, $object, $user) {
         }
       }
       
-      // For non-REST requests.
+      // Handle non-REST requests.
       if (is_array($ip_is_allowed)) {
         // First member will be the redirect URL, and second, if present,
         // will be a boolean indicating whether to append the object's URL
@@ -408,7 +408,7 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
         }
       }
 
-      // For non-REST requests.
+      // Handle non-REST requests.
       if ($ip_is_allowed) {
         return TRUE;
       }
