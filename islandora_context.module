@@ -324,6 +324,11 @@ function islandora_context_islandora_object_access($op, $object, $user) {
     $plugin->execute($object->id);
   }
 
+  // Deine ISLANDORA_REST_DATASTREAM_GET_PERM if it is not already defined.
+  if (!defined('ISLANDORA_REST_OBJECT_GET_PERM')) {
+    define('ISLANDORA_REST_OBJECT_GET_PERM', ISLANDORA_VIEW_OBJECTS);
+  }
+
   if ($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_OBJECT_GET_PERM) {
     if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
       $current_path = current_path();
@@ -383,6 +388,12 @@ function islandora_context_islandora_datastream_access($op, $datastream, $user) 
   // Counterintuitively, ISLANDORA_REST_DATASTREAM_GET_PERM is the correct
   // permission here and in the next check for requests via the islandora_rest
   // API; TNs remain viewable, other datastreams are correctly restricted.
+  // First, we need to handle the case where ISLANDORA_REST_DATASTREAM_GET_PERM
+  // is not defined because the REST module is not enabled.
+  if (!defined('ISLANDORA_REST_DATASTREAM_GET_PERM')) {
+    define('ISLANDORA_REST_DATASTREAM_GET_PERM', ISLANDORA_VIEW_OBJECTS);
+  }
+
   if (($op == ISLANDORA_VIEW_OBJECTS || $op == ISLANDORA_REST_DATASTREAM_GET_PERM) && ($datastream->id == 'TN')) {
     return TRUE;
   }
