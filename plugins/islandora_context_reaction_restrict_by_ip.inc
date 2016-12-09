@@ -111,7 +111,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
       if (!strlen($range)) {
         continue;
       }
-      list($low, $high) = explode(':', $range);
+      list($low, $high) = array_pad(explode(':', $range, 2), 2, NULL);
       $comparable_low = ip2long($low);
       $comparable_high = ip2long($high);
       if ($comparable_address >= $comparable_low && $comparable_address <= $comparable_high) {
