@@ -89,10 +89,11 @@ class IslandoraContextConditionCollectionMember extends context_condition {
 function islandora_context_get_collections() {
   // Query the rindex to get all collections.
   $tuque = islandora_get_tuque_connection();
-  $ri_query = 'select $object $label from <#ri>
-     where $object <fedora-model:hasModel> <info:fedora/islandora:collectionCModel>
-      and $object <fedora-model:label> $label';
-  $results = $tuque->repository->ri->itqlQuery($ri_query, 'unlimited');
+  $ri_query = 'PREFIX fedora-model: <info:fedora/fedora-system:def/model#>
+select $object $label from <#ri>
+     where $object fedora-model:hasModel <info:fedora/islandora:collectionCModel>
+      and $object fedora-model:label $label';
+  $results = $tuque->repository->ri->sparqlQuery($ri_query, 'unlimited');
   $collections = array();
   foreach ($results as $member) {
     $pid = preg_replace('/info:fedora\//', '', $member['object']['value']);
