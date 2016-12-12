@@ -91,8 +91,8 @@ function islandora_context_get_cmodels() {
   $tuque = islandora_get_tuque_connection();
   $ri_query = 'PREFIX fedora-model: <info:fedora/fedora-system:def/model#>
 select $object $label from <#ri>
-     where $object fedora-model:hasModel <info:fedora/fedora-system:ContentModel-3.0>
-      and $object fedora-model:label $label';
+     where { $object fedora-model:hasModel <info:fedora/fedora-system:ContentModel-3.0> ;
+      fedora-model:label $label .}';
   $results = $tuque->repository->ri->sparqlQuery($ri_query, 'unlimited');
   $cmodels = array();
   foreach ($results as $member) {
