@@ -29,7 +29,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
         '#title' => t('Allowed IP ranges'),
         '#description' => t('Enter the IP address ranges, one per line, that are allowed to view objects. ' .
           'Separate the low and high ends of each range with a colon, e.g. 111.111.111.111:222.222.222.222. ' .
-          ' Asterisks are not allowed.'),
+          ' Asterisks are not allowed. Single IP addresses are also allowed, each on its own line.'),
         '#type' => 'textarea',
         '#default_value' => isset($settings['allowed_ip_ranges']) ? $settings['allowed_ip_ranges'] : '',
       ),
@@ -112,14 +112,29 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
         continue;
       }
       list($low, $high) = array_pad(explode(':', $range, 2), 2, NULL);
-      $comparable_low = ip2long($low);
-      $comparable_high = ip2long($high);
-      if ($comparable_address >= $comparable_low && $comparable_address <= $comparable_high) {
-        $is_allowed[] = 1;
+
+      // Check ranges of IP addresses.
+      if (!is_null($low) && !is_null($high)) {
+        $comparable_low = ip2long($low);
+        $comparable_high = ip2long($high);
+        if ($comparable_address >= $comparable_low && $comparable_address <= $comparable_high) {
+          $is_allowed[] = 1;
+        }
+        else {
+          $is_allowed[] = 0;
+        }
       }
-      else {
-        $is_allowed[] = 0;
+
+      // Check individual IP addresses.
+      if (!is_null($low) && is_null($high)) {
+        if (ip_address() == $low) {
+          $is_allowed[] = 1;
+        }
+        else {
+          $is_allowed[] = 0;
+        }
       }
+
     }
     return $is_allowed;
   }
