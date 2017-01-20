@@ -487,9 +487,10 @@ function islandora_context_solr_metadata_description_callback(AbstractObject $ob
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata_description')) {
     if ($markup = $plugin->execute($object)) {
       return $markup;
+    } else {
+      return FALSE;
     }
   }
-  return $markup;
 }
 
 /**
