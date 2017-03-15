@@ -163,7 +163,14 @@ function islandora_context_context_plugins() {
       'class' => 'IslandoraContextReactionUseViewer',
       'parent' => 'context_reaction',
     ),
-  );
+  $plugins['islandora_context_reaction_filter_derivatives'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_filter_derivatives.inc',
+      'class' => 'IslandoraContextReactionFilterDerivatives',
+      'parent' => 'context_reaction',
+    ),
+  ));
   return $plugins;
 }
 
@@ -254,6 +261,11 @@ function islandora_context_context_registry() {
         'title' => t("Use an Islandora viewer"),
         'description' => t("Use an Islandora viewer."),
         'plugin' => 'islandora_context_reaction_use_viewer',
+      ),
+      'islandora_context_reaction_filter_derivatives' => array(
+        'title' => t("Filter generation of Islandora derivatives"),
+        'description' => t("Determine which Islandora derivatives are generated."),
+        'plugin' => 'islandora_context_reaction_filter_derivatives',
       ),
     ),
   );
@@ -471,6 +483,22 @@ function islandora_context_solr_metadata_display_callback(AbstractObject $object
       return FALSE;
     }
   }
+}
+
+/**
+ * Implements hook_islandora_derivative_alter().
+ */
+function islandora_context_islandora_derivative_alter(&$derivatives, AbstractObject $object) {
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_filter_derivatives')) {
+    $filter_settings = $plugin->execute();
+  }
+/*
+  foreach ($derivatives as $key => $derivative) {
+    if ($derivative['destination_dsid'] == 'TN') {
+      unset($derivatives[$key]);
+    }
+  }
+*/
 }
 
 /**
