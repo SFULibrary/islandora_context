@@ -489,9 +489,11 @@ function islandora_context_solr_metadata_display_callback(AbstractObject $object
  * Implements hook_islandora_derivative_alter().
  *
  * This hook is only fired during derivative generation, so we need to use
- *  it as the integration point for Context conditions and the reaction.
+ * it as the integration point for Context conditions and the reaction.
+ * Integrating the reaction and conditions in the same hook is not typical.
  */
 function islandora_context_islandora_derivative_alter(&$derivatives, AbstractObject $object) {
+  // Define conditions that can trigger the reacion.
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_is_islandora_object')) {
     $plugin->execute($object);
   }
@@ -505,6 +507,7 @@ function islandora_context_islandora_derivative_alter(&$derivatives, AbstractObj
     $plugin->execute($object->id);
   }
 
+  // Implement the reaction.
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_filter_derivatives')) {
     $filter_settings = $plugin->execute();
     if ($filter_settings['action'] == 'include') {
