@@ -92,7 +92,8 @@ function islandora_context_get_collections() {
   $ri_query = 'PREFIX fedora-model: <info:fedora/fedora-system:def/model#>
 select $object $label from <#ri>
      where  { $object fedora-model:hasModel <info:fedora/islandora:collectionCModel> ;
-      fedora-model:label $label . }';
+      fedora-model:label $label . }
+order by ($label)';
   $results = $tuque->repository->ri->sparqlQuery($ri_query, 'unlimited');
   $collections = array();
   foreach ($results as $member) {
@@ -100,7 +101,7 @@ select $object $label from <#ri>
     $label = $member['label']['value'];
     // We don't want the root collection.
     if ($pid != 'islandora:root') {
-      $collections[$pid] = $label;
+      $collections[$pid] = $label . ' (' . $pid . ')';
     }
   }
   return $collections;
