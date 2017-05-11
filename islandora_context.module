@@ -322,7 +322,7 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_insert_text')) {
     if ($markup = $plugin->execute()) {
       if (isset($rendered[NULL])) {
-        $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
+        $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup['#markup'];
       }
     }
   }
