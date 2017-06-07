@@ -41,6 +41,14 @@ class IslandoraContextReactionDisplayParentMetadata extends context_reaction {
    * Pass the Islandora Solr Metadata configuration to the theming function.
    */
   public function execute($object) {
+    // We exclude compound objects since we only want to fire this plugin on
+    // children. Otherwise, the rendered metadata shows up twice. This means
+    // that compound objects that are child objects of other compound objects
+    // cannot display their parent's metadata. Known limitation until someone
+    // can solve this problem otherwise.
+    if (in_array('islandora:compoundCModel', $object->models)) {
+      return '';
+    }
     foreach ($this->get_contexts() as $context) {
       // If the object has a Solr metadata display configuration associated with it.
       if (isset($context->reactions['islandora_context_reaction_display_solr_metadata']['solr_metadata_configuration'])) {
