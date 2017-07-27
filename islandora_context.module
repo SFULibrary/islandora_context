@@ -480,7 +480,27 @@ function islandora_context_solr_metadata_display_callback(AbstractObject $object
       return $markup;
     }
     else {
-      return FALSE;
+      return islandora_solr_metadata_display_callback($object, $print);
+    }
+  }
+}
+
+/**
+ * Metadata display callback for rendering metadata from Solr.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return string
+ *   Markup representing the metadata display pulled from Solr.
+ */
+function islandora_context_solr_metadata_description_callback(AbstractObject $object) {
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata_description')) {
+    if ($markup = $plugin->execute($object)) {
+      return $markup;
+    }
+    else {
+      return islandora_solr_metadata_description_callback($object);
     }
   }
 }
@@ -510,7 +530,7 @@ function islandora_context_islandora_derivative_alter(&$derivatives, AbstractObj
   // Implement the reaction.
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_filter_derivatives')) {
     $filter_settings = $plugin->execute();
-    if(!isset($filter_settings['action'])) {
+    if (!isset($filter_settings['action'])) {
       $filter_settings['action'] = NULL;
     }
     if ($filter_settings['action'] == 'include') {
@@ -526,26 +546,6 @@ function islandora_context_islandora_derivative_alter(&$derivatives, AbstractObj
           unset($derivatives[$key]);
         }
       }
-    }
-  }
-}
-
-/**
- * Metadata display callback for rendering metadata from Solr.
- *
- * @param AbstractObject $object
- *   An AbstractObject representing an object within Fedora.
- *
- * @return string
- *   Markup representing the metadata display pulled from Solr.
- */
-function islandora_context_solr_metadata_description_callback(AbstractObject $object) {
-  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_solr_metadata_description')) {
-    if ($markup = $plugin->execute($object)) {
-      return $markup;
-    }
-    else {
-      return FALSE;
     }
   }
 }
