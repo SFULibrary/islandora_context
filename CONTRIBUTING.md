@@ -56,7 +56,7 @@ Contributions to the Islandora Context codebase should be sent as GitHub pull re
     2. Comment on the issue with your plan for implementing the enhancement. Explain what pieces of the codebase you are going to touch and how everything is going to fit together.
     3. The Islandora Context maintainers will work with you on the design to make sure you are on the right track.
     4. Implement your issue, create a pull request (see below), and iterate from there.
-    5. Please run `drush dcs --extensions=inc` and `drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_datastream_crud` before committing to your branch.
+    5. Please run `drush dcs --extensions=inc` and `drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_context` before committing to your branch.
 
 #### Issue / Topic Branches
 
@@ -68,7 +68,7 @@ Take a look at [Creating a pull request](https://help.github.com/articles/creati
 
 1. [Fork](https://help.github.com/articles/fork-a-repo) the Islandora Context repository to your personal GitHub account. See [Fork a repo](https://help.github.com/articles/fork-a-repo) for detailed instructions.
 2. Commit any changes to the issue/topic branch in your fork. Comments can be as terse as "Work on #243.", etc. but you can be more descriptive if you want. However, please refer to the issue you are working on somewhere in the commit comment using GitHub's '#' shortcut, as in the example.
-3. Send a [pull request](https://help.github.com/articles/creating-a-pull-request) to the Islandora Context repository that you forked in step 1 (in other words, https://github.com/mjordan/islandora_datastream_crud).
+3. Send a [pull request](https://help.github.com/articles/creating-a-pull-request) to the Islandora Context repository that you forked in step 1 (in other words, https://github.com/mjordan/islandora_context).
 4. Complete the pull request template.
 
 You may want to read [Syncing a fork](https://help.github.com/articles/syncing-a-fork) for instructions on how to keep your fork up to date with the latest changes of the upstream (official) Islandora Context repository.
