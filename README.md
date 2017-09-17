@@ -71,12 +71,10 @@ And there are many more.
 
 * [Mark Jordan](https://github.com/mjordan)
 
-## Troubleshooting/issues/feedback
+### Troubleshooting
 
-Feedback and use cases for Islandora-specific "conditions" and "reactions" are welcome.
+As a general rule, if disabling or changing a Context condition or reaction doesn't work, clear your site's cache and try again.
 
-* [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
-* [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
+## Feedback and Contrubuting
 
-As a general rule, if disabling or changing a Context condition or reaction doesn't work, clear your site's cache.
-
+Feedback, but reports, use cases, and pull requests are welcome. See CONTRIBUTING.md for details. Also feel free to post to the [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora) before opening an issue.
