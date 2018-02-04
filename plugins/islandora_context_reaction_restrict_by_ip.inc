@@ -66,7 +66,7 @@ class IslandoraContextReactionRestrictByIp extends context_reaction {
   public function execute() {
     $is_allowed = array();
     foreach ($this->get_contexts() as $context) {
-      if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]))) {
+      if (isset($context->reactions) && (!empty($context->reactions[$this->plugin]['allowed_ip_ranges']))) {
         $configured_ranges = $context->reactions[$this->plugin]['allowed_ip_ranges'];
         $is_allowed = $this->check_ip($configured_ranges);
         if (in_array(1, $is_allowed)) {

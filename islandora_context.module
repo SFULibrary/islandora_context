@@ -329,6 +329,16 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_rdf_requested')) {
     $plugin->execute($object);
   }
+  // We call this plugin here since redirection, in this case to a proxy URL, has to happen
+  // in this hook. Access to the object is handled in hook_islandora_object_access().
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_restrict_by_ip')) {
+    $redirect = $plugin->execute($object);
+    if (is_array($redirect)) {
+      global $base_url;
+      $redirect_target = $redirect[0] . $base_url . '/islandora/object/' . $object->id;
+      drupal_goto($redirect_target);
+    }
+  }
 
   return array();
 }
@@ -393,22 +403,26 @@ function islandora_context_islandora_object_access($op, $object, $user) {
         }
       }
 
-      // Handle non-REST requests.
+      // Handle non-REST requests, which need to delegate redirecting to a proxy
+      // hook_islandora_view_object().
       if (is_array($ip_is_allowed)) {
         // First member will be the redirect URL, and second, if present,
         // will be a boolean indicating whether to append the object's URL
-        // to the redirect URL.
+        // to the redirect URL. If this is the case, retun NULL so
+        // hook_islandora_view_object() can redirect the user to the proxy URL.
         if (count($ip_is_allowed) == 1) {
-          drupal_goto($ip_is_allowed[0]);
+          if (is_array($ip_is_allowed)) {
+            return NULL;
+          }
+          else {
+            return FALSE;
+          }
         }
         else {
           // Make an exception to the redirect for thumbnails, since
           // they should be viewable by everyone.
-          // if (!preg_match('#datastream/TN/view|rest/v+/object/.+/datastream/TN#', $current_path)) {
           if (!preg_match('#datastream/TN/view#', $current_path)) {
-            global $base_url;
-            $redirect_target = $ip_is_allowed[0] . $base_url . '/' . $current_path;
-            drupal_goto($redirect_target);
+            return NULL;
           }
         }
         return NULL;
