@@ -156,6 +156,14 @@ function islandora_context_context_plugins() {
       'parent' => 'context_reaction',
     ),
   );
+  $plugins['islandora_context_reaction_hide_metadata_description'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
+      'file' => 'islandora_context_reaction_hide_metadata_description.inc',
+      'class' => 'IslandoraContextReactionHideMetadataDescription',
+      'parent' => 'context_reaction',
+    ),
+  );
   $plugins['islandora_context_reaction_restrict_by_ip'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -273,6 +281,11 @@ function islandora_context_context_registry() {
         'description' => t("Hides the metadata \"Details\" div of an Islandora object."),
         'plugin' => 'islandora_context_reaction_hide_metadata_details',
       ),
+      'islandora_context_reaction_hide_metadata_description' => array(
+        'title' => t("Hide an object's metadata \"Description\" markup"),
+        'description' => t("Hides the metadata \"Description\" markup of an Islandora object."),
+        'plugin' => 'islandora_context_reaction_hide_metadata_description',
+      ),
       'islandora_context_reaction_restrict_by_ip' => array(
         'title' => t("User's IP address"),
         'description' => t("Restrict access to an Islandora object based on the user's IP address."),
@@ -366,6 +379,9 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
     }
   }
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_hide_metadata_details')) {
+    $plugin->execute($object);
+  }
+  if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_hide_metadata_description')) {
     $plugin->execute($object);
   }
 }
