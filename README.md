@@ -26,6 +26,7 @@ It also provides the following Context reactions:
 * Display the metadata of an object's compound parent: If the object is part of a compound object, display the parent's metadata beneath the object's. Works with default DC metadata or Solr Metadata display configurations managed by Islandora Context.
 * Hide an object's metadata "Details" div. Uses JavaScript to hide the div, does not remove the markup from the HTML.
 * Hide an object's metadata "Description" markup. Uses JavaScript to hide the markup, does not remove it from the HTML.
+* Hide an object's "In collections" markup. Uses JavaScript to hide the markup, does not remove it from the HTML.
 * Restrict access to an object based on the user's IP address: Lets you define a set of IP ranges (or single IP addresses) that objects are allowed to be accessed from. Users outside these ranges receive an "Access denied" message. Thumbnails are excluded from this restriction (that is, users outside the allowed IP ranges can view a restricted object's thumbnail). There is also an option to configure a URL to redirect users to, for example an Ezproxy URL.
 * Filter generation of Islandora derivatives: Lets you define which derivates to generate. Only triggered by the "Islandora Collection Membership", "Islandora Content Models", "Islandora PID Namespace", and "Islandora Relationship" conditions.
 * Use an Islandora viewer: Use one of the configured Islandora viewers. Experimental; currently only works with basic image objects.
