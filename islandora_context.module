@@ -73,14 +73,6 @@ function islandora_context_context_plugins() {
       'parent' => 'context_condition',
     ),
   );
-  $plugins['islandora_context_condition_no_book_viewer'] = array(
-    'handler' => array(
-      'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
-      'file' => 'islandora_context_condition_no_book_viewer.inc',
-      'class' => 'IslandoraContextConditionNoBookViewer',
-      'parent' => 'context_condition',
-    ),
-  );
   $plugins['islandora_context_condition_content_models'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'islandora_context') . '/plugins',
@@ -237,11 +229,6 @@ function islandora_context_context_registry() {
         'description' => t("Choose this condition if you want to detect whether a collection object is empty (has no members)."),
         'plugin' => 'islandora_context_condition_collection_is_empty',
       ),
-      'islandora_context_condition_no_book_viewer' => array(
-        'title' => t('Islandora No Book Viewer'),
-        'description' => t("Choose this condition if you want to detect whether the Book Solution Pack's default viewer is set to 'none'."),
-        'plugin' => 'islandora_context_condition_no_book_viewer',
-      ),
       'islandora_context_condition_content_models' => array(
         'title' => t('Islandora Content Models'),
         'description' => t("Choose this condition if you want to detect an object's content models."),
@@ -338,9 +325,6 @@ function islandora_context_islandora_view_object(AbstractObject $object) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_collection_is_empty')) {
-    $plugin->execute($object);
-  }
-  if ($plugin = context_get_plugin('condition', 'islandora_context_condition_no_book_viewer')) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('condition', 'islandora_context_condition_content_models')) {
