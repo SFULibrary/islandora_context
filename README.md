@@ -40,7 +40,10 @@ It also provides the following Context reactions:
 
 ## Installation
 
-Install as usual, see [this](https://drupal.org/documentation/install/modules-themes/modules-7) for further information.
+Install as usual, see [this](https://drupal.org/documentation/install/modules-themes/modules-7) for further information. In addition:
+
+* Be sure to enable the Context UI module, which is part of the Context module.
+* You will likely need to clear your Drupal cache to see the Islandora-specific conditions and reactions.
 
 ## Usage
 
