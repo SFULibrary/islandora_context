@@ -368,8 +368,6 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
       }
       else {
         // To accommodate Binary Solution Pack content model objects.
-        drupal_add_js('misc/form.js');
-        drupal_add_js('misc/collapse.js');
         $rendered[NULL][] = $markup;
       }
     }
