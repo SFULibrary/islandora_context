@@ -363,8 +363,14 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
   }
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_parent_metadata')) {
     if ($markup = $plugin->execute($object)) {
-      if (isset($rendered[NULL])) {
+      if (isset($rendered[NULL]['#markup'])) {
         $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
+      }
+      else {
+        // To accommodate Binary Solution Pack content model objects.
+        drupal_add_js('misc/form.js');
+        drupal_add_js('misc/collapse.js');
+        $rendered[NULL][] = $markup;
       }
     }
   }
