@@ -362,6 +362,8 @@ function islandora_context_islandora_view_object_alter(&$object, &$rendered) {
     $plugin->execute($object);
   }
   if ($plugin = context_get_plugin('reaction', 'islandora_context_reaction_display_parent_metadata')) {
+    drupal_add_js('misc/form.js');
+    drupal_add_js('misc/collapse.js');
     if ($markup = $plugin->execute($object)) {
       if (isset($rendered[NULL]['#markup'])) {
         $rendered[NULL]['#markup'] = $rendered[NULL]['#markup'] . $markup;
